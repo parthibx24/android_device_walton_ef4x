@@ -7,6 +7,8 @@ $(call inherit-product-if-exists, vendor/lemon/s8/s8-vendor.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/lemon/s8/overlay
 
+# Set local path
+LOCAL_PATH := device/lemon/s8
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
 	LOCAL_KERNEL := device/lemon/s8/kernel
@@ -16,6 +18,11 @@ endif
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
+
+# Init files
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/rootdir/ueventd.sc8830.rc:root/ueventd.sc8830.rc \
+        $(LOCAL_PATH)/rootdir/fstab.sc8830:root/fstab.sc8830 
 
 $(call inherit-product, build/target/product/full.mk)
 
