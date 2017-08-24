@@ -1,5 +1,5 @@
 # android_device_walton_ef4x
-Device Tree For Walton Primo EF4+
+Device Tree For Walton Primo EF4+/SC7731
 
 # Some use full bug fixes
 -if you getting libmnuitwrp.so needed by someting error.

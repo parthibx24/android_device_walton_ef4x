@@ -6,7 +6,7 @@ ro.sf.lcd_density=240
 ro.sf.lcd_width=54
 ro.sf.lcd_height=96
 ro.opengles.version=131072
-ro.product.hardware=SP7731GEA_HD_V1.0.0
+ro.product.hardware=sc8830
 
 debug.hwui.render_dirty_regions=false
 
@@ -64,65 +64,3 @@ ro.sf.hwrotation=0
 # this product does not support wifi and p2p coexist
 ro.wifip2p.coexist=false
 
-#
-# ADDITIONAL_BUILD_PROPERTIES
-#
-ro.com.android.dateformat=MM-dd-yyyy
-ro.config.ringtone=Ring_Synth_04.ogg
-ro.config.notification_sound=pixiedust.ogg
-ro.carrier=unknown
-ro.config.alarm_alert=Alarm_Classic.ogg
-drm.service.enabled=true
-ro.modem.wcn.enable=1
-ro.modem.wcn.dev=/dev/cpwcn
-ro.modem.wcn.tty=/deiv/stty_wcn
-ro.modem.wcn.diag=/dev/slog_wcn
-ro.modem.wcn.assert=/dev/spipe_wcn2
-ro.modem.wcn.id=1
-ro.modem.wcn.count=1
-camera.disable_zsl_mode=1
-ro.digital.fm.support=1
-persist.sys.sprd.modemreset=1
-ro.adb.secure=0
-persist.sys.sprd.wcnreset=1
-persist.sys.engpc.disable=1
-ro.storage.flash_type=2
-persist.storage.type=1
-sys.tempsd.enable=1
-sys.internal.emulated=1
-ro.storage.install2internal=0
-keyguard.no_require_sim=true
-ro.com.android.dataroaming=false
-persist.msms.phone_default=0
-ro.com.android.mobiledata=false
-persist.sys.modem.diag=,gser
-persist.sys.support.vt=true
-sys.usb.gser.count=4
-lmk.autocalc=false
-ro.homekey.physical=true
-dalvik.vm.heapstartsize=8m
-dalvik.vm.heapgrowthlimit=96m
-dalvik.vm.heapsize=256m
-dalvik.vm.heaptargetutilization=0.75
-dalvik.vm.heapminfree=512k
-dalvik.vm.heapmaxfree=8m
-ro.setupwizard.mode=OPTIONAL
-ro.com.google.gmsversion=5.1_r2
-ro.com.google.apphider=off
-ro.msms.phone_count=2
-persist.msms.phone_count=2
-ro.modem.w.count=2
-persist.radio.multisim.config=dsds
-persist.sys.dalvik.vm.lib.2=libart.so
-dalvik.vm.isa.arm.features=div
-ro.lovelyfonts_support=1
-net.bt.name=Android
-dalvik.vm.stack-trace-file=/data/anr/traces.txt
-
-# begin fota properties
-ro.fota.platform=Sprd7731_5.1
-ro.fota.type=phone
-ro.fota.oem=caron7731_5.1
-ro.fota.device=Lemon S8
-ro.fota.version=Lemon_S8_V1.3_2016_04_05
-# end fota properties
