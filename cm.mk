@@ -11,5 +11,5 @@ $(call inherit-product, device/walton/ef4x/device_ef4x.mk)
 PRODUCT_DEVICE := ef4x
 PRODUCT_NAME := cm_ef4x
 PRODUCT_BRAND := walton
-PRODUCT_MODEL := Primo EF4
+PRODUCT_MODEL := Primo EF4+
 PRODUCT_MANUFACTURER := walton
