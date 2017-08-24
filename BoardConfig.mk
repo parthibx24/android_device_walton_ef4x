@@ -1,25 +1,25 @@
 USE_CAMERA_STUB := true
 
 # inherit from the proprietary version
--include vendor/lemon/s8/BoardConfigVendor.mk
+#-include vendor/walton/ef4x/BoardConfigVendor.mk
 
-TARGET_ARCH := arm
-TARGET_NO_BOOTLOADER := true
-TARGET_BOARD_PLATFORM := unknown
-TARGET_CPU_ABI := armeabi-v7a
-TARGET_CPU_ABI2 := armeabi
-TARGET_ARCH_VARIANT := armv7-a-neon
-TARGET_CPU_VARIANT := cortex-a7
-TARGET_CPU_SMP := true
-ARCH_ARM_HAVE_TLS_REGISTER := true
-TARGET_BOOTLOADER_BOARD_NAME := s8
+TARGET_ARCH                  := arm
+TARGET_NO_BOOTLOADER         := true
+TARGET_BOARD_PLATFORM        := unknown
+TARGET_CPU_ABI               := armeabi-v7a
+TARGET_CPU_ABI2              := armeabi
+TARGET_ARCH_VARIANT          := armv7-a-neon
+TARGET_CPU_VARIANT           := cortex-a7
+TARGET_CPU_SMP               := true
+ARCH_ARM_HAVE_TLS_REGISTER   := true
+TARGET_BOOTLOADER_BOARD_NAME := ef4x
 
 # Kernel
-TARGET_PREBUILT_KERNEL                       := device/lemon/s8/kernel
+TARGET_PREBUILT_KERNEL                       := device/walton/ef4x/kernel
 BOARD_KERNEL_CMDLINE                         := console=ttyS1,115200n8 androidboot.selinux=permissive
 BOARD_KERNEL_BASE                            := 0x00000000
 BOARD_KERNEL_PAGESIZE                        := 2048
-BOARD_MKBOOTIMG_ARGS                         := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt device/lemon/s8/dt.img
+BOARD_MKBOOTIMG_ARGS                         := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt device/walton/ef4x/dt.img
 
 # Use decimal values to simplify things. cat proc/partitions then block*1024
 BOARD_BOOTIMAGE_PARTITION_SIZE               := 16777216
@@ -52,7 +52,7 @@ persist.sys.usb.config=adb
 
 #TWRP Recovery
 BOARD_HAS_NO_SELECT_BUTTON                   := true
-TARGET_RECOVERY_FSTAB                        := device/lemon/s8/twrp.fstab
+TARGET_RECOVERY_FSTAB                        := device/walton/ef4x/twrp.fstab
 BOARD_HAS_LARGE_FILESYSTEM                   := true
 TARGET_RECOVERY_PIXEL_FORMAT                 := "RGBX_8888"
 SP1_NAME                                     := "internal_sd"

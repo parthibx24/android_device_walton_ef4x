@@ -1,6 +1,7 @@
 #
-# system.prop for s8
+# system.prop for spreadtrum sc8830/sc7731/sc9830
 #
+
 ro.sf.lcd_density=240
 ro.sf.lcd_width=54
 ro.sf.lcd_height=96

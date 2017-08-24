@@ -1,2 +1,2 @@
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/device_s8.mk
+    $(LOCAL_DIR)/device_ef4x.mk
