@@ -1,2 +1,2 @@
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/device_ef4x.mk
+    $(LOCAL_DIR)/lineage_ef4x.mk

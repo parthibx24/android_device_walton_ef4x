@@ -1,2 +1,2 @@
-add_lunch_combo cm_ef4x-userdebug
-add_lunch_combo cm_ef4x-eng
+add_lunch_combo lineage_ef4x-userdebug
+add_lunch_combo lineage_ef4x-eng
