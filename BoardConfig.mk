@@ -18,6 +18,9 @@
 # Inherit from the proprietary version
 -include vendor/samsung/grandprimeve3g/BoardConfigVendor.mk
 
+# JACK
+ANDROID_COMPILE_WITH_JACK := false
+
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/grandprimeve3g/bluetooth
 
