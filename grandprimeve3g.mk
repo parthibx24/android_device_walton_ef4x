@@ -29,8 +29,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
-# Inherit from sprd-common device configuration
-$(call inherit-product, device/samsung/sprd-common/common.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
@@ -75,7 +74,11 @@ PRODUCT_PACKAGES += \
 	tiny_hw.xml \
 	audio.primary.sc8830 \
 	libaudio-resampler \
-	libatchannel_wrapper
+	libatchannel_wrapper \
+	audio.a2dp.default \
+	audio.usb.default \
+	audio.r_submix.default \
+	libtinyalsa
 
 # Bluetooth
 PRODUCT_PACKAGES += \
@@ -114,7 +117,10 @@ PRODUCT_PACKAGES += \
 	wpa_supplicant_overlay.conf \
 	p2p_supplicant_overlay.conf \
 	nvram_net.txt \
-	macloader
+	macloader \
+	dhcpcd.conf \
+	wpa_supplicant \
+	hostapd
 
 # PowerHAL
 PRODUCT_PACKAGES += \
@@ -143,7 +149,20 @@ PERMISSIONS_XML_FILES := \
 	frameworks/native/data/etc/android.hardware.sensor.proximity.xml \
 	frameworks/native/data/etc/android.hardware.sensor.light.xml \
 	frameworks/native/data/etc/android.software.midi.xml \
-	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml
+	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml \
+	frameworks/native/data/etc/handheld_core_hardware.xml \
+	frameworks/native/data/etc/android.hardware.bluetooth_le.xml \
+	frameworks/native/data/etc/android.hardware.telephony.gsm.xml \
+	frameworks/native/data/etc/android.hardware.location.xml \
+	frameworks/native/data/etc/android.hardware.location.gps.xml \
+	frameworks/native/data/etc/android.hardware.wifi.xml \
+	frameworks/native/data/etc/android.hardware.wifi.direct.xml \
+	frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml \
+	frameworks/native/data/etc/android.hardware.touchscreen.multitouch.xml \
+	frameworks/native/data/etc/android.hardware.touchscreen.xml \
+	frameworks/native/data/etc/android.software.sip.xml \
+	frameworks/native/data/etc/android.software.sip.voip.xml \
+	frameworks/native/data/etc/android.hardware.usb.accessory.xml \
 
 PRODUCT_COPY_FILES += \
 	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f)))
@@ -153,9 +172,43 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	ro.sys.fw.dex2oat_thread_count=4 \
 	dalvik.vm.dex2oat-flags=--no-watch-dog
 
+# Filesystem management tools
+PRODUCT_PACKAGES += \
+	f2fstat \
+	fibmap.f2fs \
+	fsck.f2fs \
+	mkfs.f2fs \
+	setup_fs \
+
+# Misc packages
+PRODUCT_PACKAGES += \
+	com.android.future.usb.accessory \
+    
+# Samsung Service Mode
+PRODUCT_PACKAGES += \
+	SamsungServiceMode
+
 # Camera config
 PRODUCT_PROPERTY_OVERRIDES += \
 	camera.disable_zsl_mode=1
+
+# Compat
+PRODUCT_PACKAGES += \
+    	libstlport
+
+# Charger
+PRODUCT_PACKAGES += \
+	charger \
+	charger_res_images
+
+# Set default USB interface
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+	persist.sys.usb.config=mtp
+
+# Device props
+PRODUCT_PROPERTY_OVERRIDES := \
+	keyguard.no_require_sim=true \
+	ro.com.android.dataroaming=false
 
 # Languages
 PRODUCT_PROPERTY_OVERRIDES += \

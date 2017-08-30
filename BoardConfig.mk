@@ -12,9 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit from SPRD common configs
--include device/samsung/sprd-common/BoardConfigCommon.mk
-
 # Inherit from the proprietary version
 -include vendor/samsung/grandprimeve3g/BoardConfigVendor.mk
 
@@ -37,16 +34,28 @@ TARGET_UNIFIED_DEVICE := true
 # RIL
 BOARD_RIL_CLASS += ../../../device/samsung/grandprimeve3g/ril
 COMMON_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING
+BOARD_PROVIDES_RILD := true
+BOARD_RIL_CLASS := ../../../device/samsung/grandprimeve3g/ril
 
 # System properties
 TARGET_SYSTEM_PROP += device/samsung/grandprimeve3g/system.prop
 
 # Hardware-specific
 SOC_SCX30G_V2 := true
+BOARD_USES_SPRD_HARDWARE := true
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/grandprimeve3g/bluetooth
 BOARD_BLUEDROID_VENDOR_CONF := device/samsung/grandprimeve3g/bluetooth/libbt_vndcfg.txt
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_BCM := true
+
+# Audio
+BOARD_USES_TINYALSA_AUDIO := true
+TARGET_TINY_ALSA_IGNORE_SILENCE_SIZE := true
+
+# CMHW
+BOARD_HARDWARE_CLASS := device/samsung/grandprimeve3g/cmhw/
 
 # FM radio
 BOARD_HAVE_FM_BCM := true
@@ -75,6 +84,7 @@ HWUI_COMPILE_FOR_PERF := true
 TARGET_REQUIRES_SYNCHRONOUS_SETSURFACE := true
 COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
+USE_OPENGL_RENDERER := true
 
 # HWComposer
 USE_SPRD_HWCOMPOSER := true
