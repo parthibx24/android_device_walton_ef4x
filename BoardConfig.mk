@@ -37,8 +37,8 @@ TARGET_USERIMAGES_USE_F2FS := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 
 # Kernel
-TARGET_KERNEL_CONFIG := cyanogen_grandprimeve3g_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/sprd
+TARGET_KERNEL_CONFIG := sp7731gea-dt_defconfig
+TARGET_KERNEL_SOURCE := kernel/sprd
 
 # Resolution
 TARGET_SCREEN_HEIGHT := 960
