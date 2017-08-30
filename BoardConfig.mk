@@ -12,14 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit from scx30g2 common configs
--include device/samsung/scx30g2-common/BoardConfigCommon.mk
+# Inherit from SCX35 common configs
+-include device/samsung/scx35-common/BoardConfigCommon.mk
 
 # Inherit from the proprietary version
 -include vendor/samsung/grandprimeve3g/BoardConfigVendor.mk
 
 # JACK
 ANDROID_COMPILE_WITH_JACK := false
+
+# RIL
+BOARD_RIL_CLASS += ../../../device/samsung/grandprimeve3g/ril
+
+# System properties
+TARGET_SYSTEM_PROP += device/samsung/grandprimeve3g/system.prop
+
+# Hardware-specific
+SOC_SCX30G_V2 := true
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/grandprimeve3g/bluetooth
@@ -50,3 +59,6 @@ TARGET_SCREEN_WIDTH := 540
 
 # Assert
 TARGET_OTA_ASSERT_DEVICE := SM-G531H,SM-G531BT,grandprimeve3g,grandprimeve3gdtv,grandprimeve3gub,grandprimeve3gxx,grandprimeve3gdtvvj
+
+# Recovery
+TARGET_RECOVERY_FSTAB := device/samsung/grandprimeve3g/rootdir/fstab.sc8830
