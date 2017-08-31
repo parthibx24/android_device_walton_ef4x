@@ -153,8 +153,8 @@ BOARD_KERNEL_CMDLINE  := console=ttyS1,115200n8 androidboot.selinux=permissive
 BOARD_KERNEL_BASE     := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS  := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt device/samsung/grandprimeve3g/dt.img
-TARGET_KERNEL_CONFIG := sp7731gea-dt_defconfig
-TARGET_KERNEL_SOURCE := kernel/sprd
+#TARGET_KERNEL_CONFIG := sp7731gea-dt_defconfig
+#TARGET_KERNEL_SOURCE := kernel/sprd
 #BOARD_CUSTOM_BOOTIMG_MK := device/samsung/scx35-common/mkbootimg.mk
 #BOARD_KERNEL_SEPARATED_DT := true
 TARGET_KERNEL_ARCH := arm

@@ -245,6 +245,11 @@ PRODUCT_PACKAGES += \
 	init.wifi.rc \
 	ueventd.sc8830.rc
 
+# da kharnal
+TARGET_PREBUILT_SHIT := device/samsung/grandprimeve3g/kernel.ef4x
+PRODUCT_COPY_FILES += \
+	$(TARGET_PREBUILT_SHIT):kernel 
+
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_grandprimeve3g
 PRODUCT_DEVICE := grandprimeve3g
