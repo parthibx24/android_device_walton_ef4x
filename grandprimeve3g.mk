@@ -127,9 +127,9 @@ PRODUCT_PACKAGES += \
 	power.sc8830
 
 # SamsungDoze
-PRODUCT_PACKAGES += \
-	SamsungDoze \
-	Gello
+#PRODUCT_PACKAGES += \
+#	SamsungDoze \
+#	Gello
 
 # FM radio
 PRODUCT_PACKAGES += \
@@ -185,8 +185,8 @@ PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory \
     
 # Samsung Service Mode
-PRODUCT_PACKAGES += \
-	SamsungServiceMode
+#PRODUCT_PACKAGES += \
+#	SamsungServiceMode
 
 # Camera config
 PRODUCT_PROPERTY_OVERRIDES += \
