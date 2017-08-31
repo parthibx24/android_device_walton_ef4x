@@ -247,8 +247,11 @@ PRODUCT_PACKAGES += \
 
 # da kharnal
 TARGET_PREBUILT_SHIT := device/samsung/grandprimeve3g/kernel.ef4x
+TARGET_KERNEL_HEADERS := device/samsung/grandprimve3g/headers
 PRODUCT_COPY_FILES += \
 	$(TARGET_PREBUILT_SHIT):kernel 
+PRODUCT_COPY_FILES += \
+	$(TARGET_KERNEL_HEADERS):obj
 
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_grandprimeve3g
