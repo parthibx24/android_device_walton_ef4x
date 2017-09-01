@@ -1,0 +1,60 @@
+#!/system/bin/sh
+echo "Patched" >/sbin/.sys_int
+sleep 3
+mount -t rootfs -o remount,rw rootfs
+mount -o remount,rw -t auto /data
+mount -o remount,rw -t auto /system
+mount -o remount,rw /data
+mount -o remount,rw /system
+
+if [ -e /data/system/theme/fonts/fonts.xml ]
+then
+	mount -o remount,rw /data && rm -rf /data/system/theme/fonts/fonts.xml
+fi
+if [ -e /data/system/theme/bootanimation.zip ]
+then
+	mount -t rootfs -o remount,rw rootfs;
+    mount -o remount,rw -t auto /data;
+	mount -o remount,rw /data;
+	mount -o remount,rw -t auto /system;
+	mount -o remount,rw /system && rm -f /system/media/bootanimation.zip;
+	mount -o remount,rw /system && mv -f /data/system/theme/bootanimation.zip /system/media/bootanimation.zip;
+	mount -o remount,rw /system && chmod 644 /system/media/bootanimation.zip;
+	mount -o remount,rw /system && chown 0.0 /system/media/bootanimation.zip;
+fi
+
+	mount -o remount,rw /data && find /data/system/theme -type d -exec chmod 0777 {} \;
+	mount -o remount,rw /data && find /data/system/theme -type f -exec chmod 0666 {} \;
+
+echo "off" >/productinfo/sysdump_flag
+
+if [ ! -e /system/etc/init.d ]; then
+   mount -o remount,rw /system && mkdir /system/etc/init.d
+   mount -o remount,rw /system && chown -R root.root /system/etc/init.d
+   mount -o remount,rw /system && chmod -R 755 /system/etc/init.d
+   mount -o remount,rw /system && mkdir /system/su.d
+   mount -o remount,rw /system && chown -R root.root /system/su.d
+   mount -o remount,rw /system && chmod -R 755 /system/su.d
+fi
+
+   mount -o remount,rw /system && busybox mount -o remount,rw -t auto /system
+   mount -o remount,rw /system && busybox chmod -R 755 /system/etc/init.d
+   mount -o remount,rw /system && busybox chmod -R 755 /system/etc/init.d/*
+   mount -o remount,rw /system && busybox chmod 755 /system/etc/init.d/*
+   mount -o remount,rw /system && chown 0.0 /system/etc/init.d/*
+   mount -o remount,rw /system && busybox chmod -R 700 /system/su.d
+   mount -o remount,rw /system && busybox chmod -R 755 /system/su.d/*
+   mount -o remount,rw /system && busybox chmod 755 /system/su.d/*
+   mount -o remount,rw /system && chown 0.0 /system/su.d/*
+
+for i in /system/etc/init.d/*; do
+    if [ -x $i ]; then
+        /system/bin/log -t sysinit Running $i
+        $i
+    fi
+done
+
+sleep 3
+mount -t rootfs -o remount,ro rootfs
+mount -o remount,rw -t auto /data
+mount -o remount,ro -t auto /system

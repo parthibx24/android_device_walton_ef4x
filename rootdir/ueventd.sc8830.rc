@@ -35,8 +35,6 @@
 /dev/spipe_w5           0660     radio      system
 /dev/spipe_w6           0660     media       audio
 /dev/spipe_w8           0660     system      system
-/dev/spipe_w9           0660     system      system
-/dev/spipe_w10          0660     system      system
 /dev/slog_wcn           0660     system      system
 /dev/spipe_wcn*         0660     system      system
 /dev/vbpipe1            0660     system  system
@@ -58,9 +56,11 @@
 /dev/mmc31xx            0666     system      compass
 /dev/al3006_pls         0666     system      system
 /dev/lis3dh_acc         0660     system      system
+/dev/mc3xxx             0660     system      system
 /dev/akm8975_dev        0660     system      system
 /dev/ts0710mux*         0660     radio       system
 /dev/ltr_558als         0660     system      system
+/dev/Pls_msg2233als            0660     system      input
 /dev/sttybt0            0660     bluetooth   system
 /dev/board_type         0660     bluetooth   system
 /dev/ttyV0		0660     system      system
@@ -87,42 +87,3 @@
 /dev/download		0660     system      system
 /dev/slog_wcn           0660     system      system
 /dev/power_ctl		0660     system      system
-
-## Sensor IIO device
-/dev/iio:device*      0660  system   radio
-
-/sys/devices/70700000.i2c/i2c-2/2-001d/iio:device*              0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-001d/iio:device* name 0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-001d/iio:device* static_matrix        0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-001d/iio:device* sampling_frequency           0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-001d/iio:device* sampling_frequency_available 0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-001d/iio:device* buffer               0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-001d/iio:device* buffer/enable        0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-001d/iio:device* buffer/length        0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-001d/iio:device* trigger              0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-001d/iio:device* trigger/current_trigger      0760  system   radio
-
-/sys/devices/70700000.i2c/i2c-2/2-002e/iio:device*		0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-002e/iio:device* name	0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-002e/iio:device* static_matrix	0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-002e/iio:device* sampling_frequency		0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-002e/iio:device* sampling_frequency_available	0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-002e/iio:device* buffer		0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-002e/iio:device* buffer/enable	0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-002e/iio:device* buffer/length	0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-002e/iio:device* trigger		0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-002e/iio:device* trigger/current_trigger	0760  system   radio
-
-/sys/devices/70700000.i2c/i2c-2/2-0044/iio:device*              0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-0044/iio:device* name 0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-0044/iio:device* static_matrix        0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-0044/iio:device* sampling_frequency           0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-0044/iio:device* sampling_frequency_available 0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-0044/iio:device* buffer               0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-0044/iio:device* buffer/enable        0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-0044/iio:device* buffer/length        0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-0044/iio:device* trigger              0760  system   radio
-/sys/devices/70700000.i2c/i2c-2/2-0044/iio:device* trigger/current_trigger      0760  system   radio
-
-# Google FRP solution
-/dev/block/platform/sdio_emmc/by-name/PERSISTENT    0660    system    system

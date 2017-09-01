@@ -238,13 +238,48 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # Rootdir
 PRODUCT_PACKAGES += \
 	fstab.sc8830 \
-	init.grandprimeve3g_base.rc \
+	ef4x.rc \
 	init.sc8830.rc \
 	init.sc8830.usb.rc \
+	init.sc8830_ss.rc \
 	init.board.rc \
 	init.wifi.rc \
-	ueventd.sc8830.rc
+	ueventd.sc8830.rc \
+	fstab.sp7731c_1h10 \
+	init.recovery.sp7731c_1h10.rc \
+	init.sp7731c_1h10.rc \
+	ueventd.sp7731c_1h10.rc
 
+# Prebuilt ramdisk files
+PREBUILT_RAMDISK_FILES := \
+	lib/modules/autotst.ko \
+	lib/modules/mali.ko \
+	lib/modules/gator.ko \
+	lib/modules/trout_fm.ko \
+	lib/modules/mmc_test.ko \
+	lib/modules/sprdwl.ko \
+	sbin/adbd \
+	sbin/healthd \
+	sbin/ueventd \
+	sbin/watchdogd \
+	sbin/charge \
+	sbin/efs \
+	sbin/init \
+	sbin/init_su \
+	sbin/intextSdCard \
+	sbin/mkfs.f2fs \
+	sbin/sswap \
+	file_contexts \
+	init \
+	init.rc \
+	property_contexts \
+	seapp_contexts \
+	sepolicy \
+	service_contexts
+
+PRODUCT_COPY_FILES += \
+	$(foreach f,$(PREBUILT_RAMDISK_FILES),device/samsung/grandprimeve3g/prebuilt/root/$(f):root/$(f))
+	
 # da kharnal
 TARGET_PREBUILT_SHIT := device/samsung/grandprimeve3g/kernel.ef4x
 TARGET_KERNEL_HEADERS := device/samsung/grandprimve3g/headers

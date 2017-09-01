@@ -1,0 +1,127 @@
+#!/system/bin/sh
+mount -o rw,remount /data
+if [ ! -e /dev/block/platform/sdio_sd/mmcblk1p1 ]; then
+   mkdir /data/media/obb
+   mkdir /data/media/Android
+   rm -rf /storage/extSdCard
+   mkdir /storage/extSdCard
+   mount -t vfat -o umask=0007,uid=1023,gid=1023 /dev/block/mmcblk1 /storage/extSdCard
+   TARGET="/dev/block/mmcblk1"
+   rm -rf /sdcard
+   rm -rf /mnt/runtime/default/self/primary
+   rm -rf /storage/sdcard0
+   rm -rf /mnt/sdcard
+   mkdir /storage/self
+   mkdir /storage/self/primary
+   mkdir /sdcard
+   mkdir /mnt/runtime
+   mkdir /mnt/runtime/default
+   mkdir /mnt/runtime/default/self
+   mkdir /mnt/runtime/default/self/primary
+   mkdir /storage/sdcard0
+   mkdir /mnt/sdcard
+   mkdir /storage/emulated
+   mkdir /storage/emulated/0
+else
+   mkdir /data/media/obb
+   mkdir /data/media/Android
+   rm -rf /storage/extSdCard
+   mkdir /storage/extSdCard
+   mount -t vfat -o umask=0007,uid=1023,gid=1023 /dev/block/mmcblk1p1 /storage/extSdCard
+   TARGET="/dev/block/mmcblk1p1"
+   rm -rf /sdcard
+   rm -rf /mnt/runtime/default/self/primary
+   rm -rf /storage/sdcard0
+   rm -rf /mnt/sdcard
+   mkdir /storage/self
+   mkdir /storage/self/primary
+   mkdir /sdcard
+   mkdir /mnt/runtime
+   mkdir /mnt/runtime/default
+   mkdir /mnt/runtime/default/self
+   mkdir /mnt/runtime/default/self/primary
+   mkdir /storage/sdcard0
+   mkdir /mnt/sdcard
+   mkdir /storage/emulated
+   mkdir /storage/emulated/0
+fi
+LOG="/data/media/0";
+rm -f $LOG/Penyimpanan_Internal_extSdCard.log;
+rm -f /Storage/extSdCard/Penyimpanan_Internal_extSdCard.log;
+echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo "---------------------------------------------------------------------------------------------------------------------" >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo "                               AdvanS4PTX CM-13.1 SM-G531H" >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo "---------------------------------------------------------------------------------------------------------------------" >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo "List utilisasi partisi saat ini : " >>$LOG/Penyimpanan_Internal_extSdCard.log
+df >>$LOG/Penyimpanan_Internal_extSdCard.log;
+echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo "Akan berfungsi apabila kartu memory telah terdeteksi !" >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo "---------------------------------------------------------------------------------------------------------------------" >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo "                                    Created By Hadi Khoirudin" >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo "---------------------------------------------------------------------------------------------------------------------" >>$LOG/Penyimpanan_Internal_extSdCard.log
+echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+for i in $(seq 1 1 3000)
+do
+    if ( grep -c "/storage/extSdCard" /proc/mounts ); then
+	    echo "Mount extSdCard ke data/media/0" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		mount -t vfat -o umask=0007,uid=1023,gid=1023 $TARGET /data/media/0
+		mkdir -p /data/media/0/Android
+		rm /data/media/0/Android
+		mkdir -p /data/media/0/Android/obb
+		rm /data/media/0/Android/obb
+		mkdir /data/media/obb
+		mkdir /data/media/Android
+		mount -o bind /data/media/0/Android /data/media/Android
+		mount -o bind /data/media/0/Android/obb /data/media/obb
+		rm -f $LOG/Penyimpanan_Internal_extSdCard.log;
+		echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "---------------------------------------------------------------------------------------------------------------------" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "                               AdvanS4PTX CM-13.1 SM-G531H" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "---------------------------------------------------------------------------------------------------------------------" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "List utilisasi partisi saat ini : " >>$LOG/Penyimpanan_Internal_extSdCard.log
+		df >>$LOG/Penyimpanan_Internal_extSdCard.log;
+		echo "---------------------------------------------------------------------------------------------------------------------" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "Info Versi kernel : " >>$LOG/Penyimpanan_Internal_extSdCard.log
+		cat /proc/version >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "---------------------------------------------------------------------------------------------------------------------" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "Keterangan      :" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "- Untuk mengetahui kapasitas MicroSD silahkan lihat pada baris mmcblk1 diatas sebelum ...% dalam satuan KB !" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "- MicroSD (kartu memory) saat ini telah dijadikan penyimpanan media internal" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "- Data OBB tiap aplikasi sekarang telah ditempatkan pada MicroSD" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "---------------------------------------------------------------------------------------------------------------------" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "                                    Created By Hadi Khoirudin" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo "---------------------------------------------------------------------------------------------------------------------" >>$LOG/Penyimpanan_Internal_extSdCard.log
+		echo " " >>$LOG/Penyimpanan_Internal_extSdCard.log
+
+mount -o bind /data/media/0 /storage/self/primary
+
+mount -o bind /data/media/0 /sdcard
+
+mount -o bind /data/media/0 /mnt/runtime/default/self/primary
+
+mount -o bind /data/media/0 /mnt/sdcard
+
+mount -o bind /data/media/0 /storage/sdcard0
+
+mount -o bind /data/media/0 /storage/emulated/0
+
+mount -o bind /data/media /storage/extSdCard
+
+rm -f /storage/extSdCard/Penyimpanan_Internal_extSdCard.log;
+cp $LOG/Penyimpanan_Internal_extSdCard.log /storage/extSdCard;
+        break;
+    fi
+    usleep 100000
+done
