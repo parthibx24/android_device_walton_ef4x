@@ -12,16 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOCAL_PATH := device/samsung/grandprimeve3g
+LOCAL_PATH := device/walton/ef4x
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 # Inherit from vendor tree
-$(call inherit-product-if-exists, vendor/samsung/grandprimeve3g/grandprimeve3g-vendor.mk)
-
-# Inherit scx30g2-common vendor tree
-$(call inherit-product-if-exists, vendor/samsung/scx30g2-common/scx30g2-common-vendor.mk)
+$(call inherit-product-if-exists, vendor/walton/ef4x/ef4x-vendor.mk)
 
 # Inherit from AOSP product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
@@ -32,10 +29,6 @@ $(call inherit-product, device/common/gps/gps_us_supl.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
-
-# Boot animation
-TARGET_SCREEN_HEIGHT := 960
-TARGET_SCREEN_WIDTH := 540
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
@@ -279,19 +272,19 @@ PREBUILT_RAMDISK_FILES := \
 	service_contexts
 
 PRODUCT_COPY_FILES += \
-	$(foreach f,$(PREBUILT_RAMDISK_FILES),device/samsung/grandprimeve3g/prebuilt/root/$(f):root/$(f))
+	$(foreach f,$(PREBUILT_RAMDISK_FILES),device/walton/ef4x/prebuilt/root/$(f):root/$(f))
 	
 # da kharnal
-TARGET_PREBUILT_SHIT := device/samsung/grandprimeve3g/kernel.ef4x
-TARGET_KERNEL_HEADERS := device/samsung/grandprimve3g/headers
+TARGET_PREBUILT_SHIT := device/walton/ef4x/kernel.ef4x
+TARGET_KERNEL_HEADERS := device/walton/ef4x6/headers
 PRODUCT_COPY_FILES += \
 	$(TARGET_PREBUILT_SHIT):kernel 
 PRODUCT_COPY_FILES += \
 	$(TARGET_KERNEL_HEADERS):obj
 
 # Set those variables here to overwrite the inherited values.
-PRODUCT_NAME := full_grandprimeve3g
-PRODUCT_DEVICE := grandprimeve3g
-PRODUCT_BRAND := samsung
-PRODUCT_MANUFACTURER := samsung
-PRODUCT_MODEL := SM-G531H
+PRODUCT_NAME := full_ef4x
+PRODUCT_DEVICE := ef4x
+PRODUCT_BRAND := walton
+PRODUCT_MANUFACTURER := walton
+PRODUCT_MODEL := Primo EF4+
