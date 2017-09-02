@@ -18,17 +18,18 @@ on early-init
 
 on init
 
-    mkdir /productinfo 0771 system system
-
 # Patched @}
+    stop ril-daemon
+# Patched {@
 
-#    export LD_SHIM_LIBS /system/lib/libstagefright_sprd_h264dec.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_h264enc.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_mpeg4dec.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_mpeg4enc.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_vpxdec.so|libstagefright_shim.so:/system/lib/hw/hwcomposer.sc8830.so|libhwc_shim.so
+    mkdir /productinfo 0771 system system
+    export LD_SHIM_LIBS /system/lib/libstagefright_sprd_h264dec.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_h264enc.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_mpeg4dec.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_mpeg4enc.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_vpxdec.so|libstagefright_shim.so:/system/lib/hw/hwcomposer.sc8830.so|libhwc_shim.so
+    mkdir /oem 0771 system system
 
-# Patched {@	
 # @}
     chown system system /sys/class/power_supply/battery/hw_switch_point
     chown system system /sys/class/power_supply/battery/save_capacity
-# @}
+    # @}
 
 on fs
     mount_all /fstab.sc8830
@@ -44,6 +45,11 @@ on fs
 #Allow others to read fb devices
     chmod 660 /dev/graphics/fb0
     chmod 660 /dev/fb0
+
+on post-fs
+
+    chown system system /oem
+    chmod 0771 /oem
 
 on post-fs-data
     copy /system/etc/bluetooth/bt_stack.conf /data/misc/bluedroid/bt_stack.conf
@@ -245,6 +251,12 @@ service modemd /system/bin/modemd
     group system radio shell
     oneshot
 
+service wcnd /system/bin/wcnd
+    class main
+    user system
+    group system shell wifi inet net_bt_stack
+    #oneshot
+    
 service phoneserver_t /system/bin/phoneserver -m t
     class core
     user root
@@ -273,39 +285,87 @@ service phoneserver_tl /system/bin/phoneserver -m tl
     disabled
     oneshot
 
-service batterysrv /system/bin/batterysrv
+service batterysrv /bin/batterysrv
     class core
     user system
     group system
     oneshot
 
-#wcdma rild service
-service ril-daemon /system/bin/rild -l /system/lib/libreference-ril_sp.so -m w -n 0
+#td rild service
+service tril-daemon /system/bin/rild_sp -l /system/lib/libreference-ril_sp.so -m t -n 0
     class core
     socket rild stream 660 root radio
     socket rild-debug stream 660 radio system
     disabled
     user root
-    group radio cache inet misc audio sdcard_rw log shell sdcard_r
-    setenv LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so
+    group radio cache inet misc audio sdcard_rw log
 
-service ril-daemon2 /system/bin/rild -l /system/lib/libreference-ril_sp.so -m w -n 1
-    class core
-    socket rild1 stream 660 root radio
-    socket rild-debug1 stream 660 radio system
-    disabled
-    user root
-    group radio cache inet misc audio sdcard_rw log shell sdcard_r
-    setenv LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so
-
-service ril-daemon3 /system/bin/rild -l /system/lib/libreference-ril_sp.so -m w -n 2
+service tril-daemon1 /system/bin/rild_sp -l /system/lib/libreference-ril_sp.so -m t -n 1
     class core
     socket rild2 stream 660 root radio
     socket rild-debug2 stream 660 radio system
     disabled
     user root
-    group radio cache inet misc audio sdcard_rw log shell sdcard_r
+    group radio cache inet misc audio sdcard_rw log
+
+service tril-daemon2 /system/bin/rild_sp -l /system/lib/libreference-ril_sp.so -m t -n 2
+    class core
+    socket rild3 stream 660 root radio
+    socket rild-debug3 stream 660 radio system
+    disabled
+    user root
+    group radio cache inet misc audio sdcard_rw log
+
+#wcdma rild service
+service sprd-ril-daemon /system/bin/rild_sprd -l /system/lib/libreference-ril_sp.so -m w -n 0
+    class core
+    socket rild stream 660 root radio
+    socket rild-debug stream 660 radio system
+    user root
+    group radio cache inet misc audio sdcard_rw log shell
     setenv LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so
+
+service sprd-ril-daemon2 /system/bin/rild_sprd -l /system/lib/libreference-ril_sp.so -m w -n 1
+    class core
+    socket rild2 stream 660 root radio
+    socket rild-debug2 stream 660 radio system
+    user root
+    group radio cache inet misc audio sdcard_rw log shell
+    setenv LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so
+
+service sprd-ril-daemon3 /system/bin/rild_sprd -l /system/lib/libreference-ril_sp.so -m w -n 2
+    class core
+    socket rild3 stream 660 root radio
+    socket rild-debug3 stream 660 radio system
+    user root
+    group radio cache inet misc audio sdcard_rw log shell
+    setenv LD_SHIM_LIBS /system/lib/libril.so|libril_shim
+
+#lte rild service
+service lril-daemon /system/bin/rild_sp -l /system/lib/libreference-ril_sp.so -m l -n 0
+    class core
+    socket rild stream 660 root radio
+    socket rild-debug stream 660 radio system
+    disabled
+    user root
+    group radio cache inet misc audio sdcard_rw log shell
+
+#tl rild service
+service tlril-daemon /system/bin/rild_sp -l /system/lib/libreference-ril_sp.so -m tl -n 0
+    class core
+    socket rild stream 660 root radio
+    socket rild-debug stream 660 radio system
+    disabled
+    user root
+    group radio cache inet misc audio sdcard_rw log shell
+
+service tlril-daemon1 /system/bin/rild_sp -l /system/lib/libreference-ril_sp.so -m tl -n 1
+    class core
+    socket rild2 stream 660 root radio
+    socket rild-debug2 stream 660 radio system
+    disabled
+    user root
+    group radio cache inet misc audio sdcard_rw log shell
 
 #nvitemd
 service nvitemd_td /system/bin/nvitemd t 0
@@ -333,6 +393,12 @@ service slog /system/bin/slog -t
     class main
     user system
     group system shell radio log sdcard_r sdcard_rw
+
+service apr /system/bin/collect_apr
+    class core
+    user system
+    disabled
+    oneshot
 
 service refnotify_td /system/bin/refnotify -t 0
     class core
@@ -414,6 +480,18 @@ service data_off /system/bin/ext_data.sh  -d
     disabled
     oneshot
 
+#enable_dns
+service enable_dns /system/bin/ext_data.sh -e
+    user root
+    disabled
+    oneshot
+
+#disable_dns
+service disable_dns /system/bin/ext_data.sh -c
+    user root
+    disabled
+    oneshot
+
 #kill td app
 service kill_td_phone /system/bin/ext_kill.sh  -t
     user root
@@ -462,12 +540,6 @@ service  recoveryfreq  /system/bin/recoveryfreq.sh
     chmod 0666 /proc/pin_switch/bt_iis_sys_sel/cp2_iis0
     chmod 0666 /proc/pin_switch/bt_iis_sys_sel/ap_iis0
 
-service bugreport /system/bin/dumpstate -d -p -B \
-        -o /data/data/com.android.shell/files/bugreports/bugreport
-    class late_start
-    disabled
-    oneshot
-
 # SRT server
 service srtd /system/xbin/srtd
     class main
@@ -481,6 +553,17 @@ service autotest /system/bin/autotest
     disabled
     user root
     oneshot
+
+service bugreport /system/bin/dumpstate -d -p -B \
+        -o /data/data/com.android.shell/files/bugreports/bugreport
+    class late_start
+    disabled
+    oneshot
+
+service smd_symlink /system/bin/ext_symlink.sh -u
+	user root
+	disabled
+	oneshot
 
 # SSWAP
 service vnswap /sbin/sswap -s
@@ -496,4 +579,3 @@ on property:vnswap.enabled=true
 on property:ro.config.zram.disksize=*
     write /sys/block/zram0/disksize ${ro.config.zram.disksize}
     swapon_all /fstab.sc8830
-

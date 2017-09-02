@@ -24,7 +24,7 @@ on early-init
     # Set the security context for the init process.
     # This should occur before anything else (e.g. ueventd) is started.
     setcon u:r:init:s0
-	setenforce 0
+    setenforce 0
     write /sys/fs/selinux/enforce 0
 
     # Set the security context of /adb_keys if present.
@@ -142,7 +142,7 @@ on init
     write /dev/cpuctl/bg_non_interactive/cpu.shares 52
     write /dev/cpuctl/bg_non_interactive/cpu.rt_runtime_us 700000
     write /dev/cpuctl/bg_non_interactive/cpu.rt_period_us 1000000
-
+    
 # Patched @}
     # sets up initial cpusets for ActivityManager
     mkdir /dev/cpuset
@@ -201,7 +201,7 @@ on init
     # Create location for fs_mgr to store abbreviated output from filesystem
     # checker programs.
     mkdir /dev/fscklogs 0770 root system
-
+    
 # Patched @}
 
     # pstore/ramoops previous console log
@@ -215,6 +215,11 @@ on init
     write /proc/sys/abi/swp 1
 
 # Patched {@
+
+    # pstore/ramoops previous console log
+    mount pstore pstore /sys/fs/pstore
+    chown system log /sys/fs/pstore/console-ramoops
+    chmod 0440 /sys/fs/pstore/console-ramoops
 
 # Healthd can trigger a full boot from charger mode by signaling this
 # property when the power button is held.
@@ -292,7 +297,7 @@ on post-fs-data
     chmod 0771 /data
     # We restorecon /data in case the userdata partition has been reset.
     restorecon /data
-
+    
     # Emulated internal storage area
     mkdir /data/media 0770 media_rw media_rw
 
@@ -370,6 +375,9 @@ on post-fs-data
     mkdir /data/tombstones 0771 system system
 # Patched {@
 
+    /* SPRD: For saving the hprof */
+    mkdir /data/misc/hprofs 0777 system system
+
     # create dalvik-cache, so as to enforce our permissions
     mkdir /data/dalvik-cache 0771 root root
     mkdir /data/dalvik-cache/profiles 0711 system system
@@ -391,7 +399,6 @@ on post-fs-data
     mkdir /data/mediadrm 0770 mediadrm mediadrm
 
     mkdir /data/adb 0700 root root
-    mkdir /data/anr 0775 system system
 
     # symlink to bugreport storage location
     symlink /data/data/com.android.shell/files/bugreports /data/bugreports
@@ -410,6 +417,7 @@ on post-fs-data
     mkdir /data/user 0711 system system
 # Patched {@
     # Reload policy from /data/security if present.
+    setprop selinux.reload_policy 1
 
     # Set SELinux security contexts on upgrade or policy update.
     restorecon_recursive /data
@@ -517,7 +525,7 @@ on boot
 
     # Define default initial receive window size in segments.
     setprop net.tcp.default_init_rwnd 60
-	setprop persist.sys.cmdservice.enable disable
+    setprop persist.sys.cmdservice.enable disable
 
     start sysinit
 
@@ -609,6 +617,10 @@ service healthd /sbin/healthd
     critical
     seclabel u:r:healthd:s0
 
+service lpm /system/bin/lpm
+    class charger
+    critical
+
 service lpm /sbin/charge
     class charger
     critical
@@ -622,7 +634,7 @@ service console /system/bin/sh
     seclabel u:r:shell:s0
 
 # Patched @{
- service auditd /system/bin/auditd -k
+service auditd /system/bin/auditd -k
     seclabel u:r:logd:s0
     class main
 # Patched @}
@@ -638,7 +650,7 @@ service adbd /sbin/adbd --root_seclabel=u:r:su:s0
     seclabel u:r:adbd:s0
 
 # adbd on at boot in emulator
-on property:ro.kernel.qemu=0
+on property:ro.kernel.qemu=1
     start adbd
 
 service lmkd /system/bin/lmkd
@@ -675,20 +687,26 @@ service netd /system/bin/netd
     socket fwmarkd stream 0660 root inet
 
 service debuggerd /system/bin/debuggerd
-    class main
+    class core
 
 service debuggerd64 /system/bin/debuggerd64
     class main
 
 # Patched @}
-#service ril-daemon /system/bin/rild
-#    class main
-#    socket rild stream 660 root radio
-#    socket sap_uim_socket1 stream 660 bluetooth bluetooth
-#    socket rild-debug stream 660 radio system
-#    user root
-#    group radio cache inet misc audio log qcom_diag
+service ril-daemon /system/bin/rild
+    class main
+    socket rild stream 660 root radio
+    socket sap_uim_socket1 stream 660 bluetooth bluetooth
+    socket rild-debug stream 660 radio system
+    user root
+    group radio cache inet misc audio log qcom_diag
 # Patched {@
+
+service prepare_param /sbin/efs
+    class main
+    user root
+    group root
+    oneshot
 
 service surfaceflinger /system/bin/surfaceflinger
     class core
@@ -698,15 +716,14 @@ service surfaceflinger /system/bin/surfaceflinger
 
 service drm /system/bin/drmserver
     class main
-    user drm
-    group drm system inet drmrpc
+    user drm 
+     group drm system inet drmrpc
 
 service media /system/bin/mediaserver
     class main
     user media
-    group system audio camera inet net_bt net_bt_admin net_bw_acct drmrpc qcom_diag mediadrm radio sdcard_rw sdcard_r media_rw shell
+    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm system
     ioprio rt 4
-#    setenv LD_SHIM_LIBS /system/lib/hw/camera.sc8830.so|libmemoryheapion_sprd.so:/system/lib/hw/hwcomposer.sc8830.so|libmemoryheapion_sprd.so
 
 # One shot invocation to deal with encrypted volume.
 service defaultcrypto /system/bin/vdc --wait cryptfs mountdefaultencrypted
@@ -717,7 +734,7 @@ service defaultcrypto /system/bin/vdc --wait cryptfs mountdefaultencrypted
 
 # Patched {@
 # One shot invocation to encrypt unencrypted volumes
-service encrypt /system/bin/vdc --wait cryptfs enablecrypto inplace default noui
+service encrypt /system/bin/vdc --wait cryptfs enablecrypto inplace default
     disabled
     oneshot
     # vold will set vold.decrypt to trigger_restart_framework (default

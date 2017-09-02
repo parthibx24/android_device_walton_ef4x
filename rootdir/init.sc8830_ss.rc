@@ -44,6 +44,7 @@ on init
 
     # map "real" external storages paths also in same way. backwards compatibility.
     symlink /storage/extSdCard /mnt/extSdCard
+    symlink /storage/UsbDriveA /mnt/UsbDriveA
 
 # @}
     chown system system /sys/class/power_supply/battery/hw_switch_point

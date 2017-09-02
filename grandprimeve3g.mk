@@ -258,8 +258,9 @@ PREBUILT_RAMDISK_FILES := \
 	lib/modules/trout_fm.ko \
 	lib/modules/mmc_test.ko \
 	lib/modules/sprdwl.ko \
-	sbin/adbd \
 	sbin/healthd \
+	sbin/adbd \
+	sbin/resize2fs \
 	sbin/ueventd \
 	sbin/watchdogd \
 	sbin/charge \
@@ -270,8 +271,8 @@ PREBUILT_RAMDISK_FILES := \
 	sbin/mkfs.f2fs \
 	sbin/sswap \
 	file_contexts \
-	init \
 	init.rc \
+	init \
 	property_contexts \
 	seapp_contexts \
 	sepolicy \

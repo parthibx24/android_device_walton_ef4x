@@ -1,8 +1,9 @@
 
-# import /init.storage.rc // for samsung
+import /init.storage.rc 
 
 # add for board-relative touch screen driver for
 # alarm mode and normal mode.
+
 
 on boot
 
@@ -24,12 +25,14 @@ on boot
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth system /proc/bluetooth/sleep/proto
 
-    chown system system /sys/class/flash_test/flash_test/flash_value
 
+    chown system system /sys/class/flash_test/flash_test/flash_value  
+    
 #To allow interfaces to get v6 address when tethering is enabled
      write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
      write /proc/sys/net/ipv6/conf/rmnet1/accept_ra 2
      write /proc/sys/net/ipv6/conf/rmnet2/accept_ra 2
+
 
 # Create cgroup mount point for blkio 
     mkdir /sys/fs/cgroup/blkio 0750 root system
@@ -41,13 +44,12 @@ on boot
     write /sys/fs/cgroup/blkio/high/blkio.weight 700 
     chown root system /sys/fs/cgroup/blkio/high/cgroup.procs
     chmod 0660 /sys/fs/cgroup/blkio/high/cgroup.procs
-
+    
 service GPSenseEngine /system/bin/GPSenseEngine
      class main
      user root
      group root
      disabled
-
 # bluetooth
 
     chown bluetooth shell /productinfo/connectivity_configure.ini
@@ -140,6 +142,7 @@ service btld  /system/bin/btld -lpm 0 -hb 3000000
     disabled
     oneshot
 
+
 service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
     class main
     disabled
@@ -153,6 +156,8 @@ service iprenew_bnep0 /system/bin/dhcpcd -n
 service dhcpcd_bt-pan /system/bin/dhcpcd -BKLG
    disabled
    oneshot
+
+
 
 
 service iprenew_bt-pan /system/bin/dhcpcd -n
@@ -177,6 +182,7 @@ service engpcclientwcn /system/bin/engpc -p wcn -a /dev/ttyGS2 -d /dev/ttyGS3
     group system radio shell
     disabled
     oneshot
+
 
 service wcnd /system/bin/wcnd
     class core

@@ -1,4 +1,4 @@
-#init.parthib.rc
+#init.ef4x.rc
 
 import init.fac.rc
 
@@ -499,3 +499,4 @@ service swapon /sbin/sswap -s
     user root
     group root
     oneshot
+
