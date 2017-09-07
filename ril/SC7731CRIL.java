@@ -40,13 +40,13 @@ import java.util.Collections;
  * Custom RIL class for SC7730SE platform
  */
 
-public class SC7731CRIL extends CommonSPRDRIL implements CommandsInterface {
+public class SC7731CRIL extends SPRDRIL implements CommandsInterface {
 
     public SC7731CRIL(Context context, int preferredNetworkType, int cdmaSubscription) {
         this(context, preferredNetworkType, cdmaSubscription, null);
     }
 
-    public SC7730SERIL(Context context, int preferredNetworkType,
+    public SC7731CRIL(Context context, int preferredNetworkType,
             int cdmaSubscription, Integer instanceId) {
         super(context, preferredNetworkType, cdmaSubscription, instanceId);
     }

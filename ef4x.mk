@@ -119,11 +119,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	power.sc8830
 
-# SamsungDoze
-#PRODUCT_PACKAGES += \
-#	SamsungDoze \
-#	Gello
-
 # FM radio
 PRODUCT_PACKAGES += \
 	fm.sc8830
@@ -177,10 +172,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory \
     
-# Samsung Service Mode
-#PRODUCT_PACKAGES += \
-#	SamsungServiceMode
-
 # Camera config
 PRODUCT_PROPERTY_OVERRIDES += \
 	camera.disable_zsl_mode=1
@@ -196,7 +187,7 @@ PRODUCT_PACKAGES += \
 
 # Set default USB interface
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-	persist.sys.usb.config=mtp
+	persist.sys.usb.config=mtp,adb
 
 # Device props
 PRODUCT_PROPERTY_OVERRIDES := \
@@ -229,7 +220,7 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Rootdir
-TARGET_PROVIDES_INIT_RC := true
+#TARGET_PROVIDES_INIT_RC := true
 PRODUCT_PACKAGES += \
 	fstab.sc8830 \
 	ef4x.rc \
@@ -258,7 +249,6 @@ PREBUILT_RAMDISK_FILES := \
 	sbin/resize2fs \
 	sbin/charge \
 	sbin/efs \
-	sbin/init \
 	sbin/init_su \
 	sbin/intextSdCard \
 	sbin/mkfs.f2fs \
@@ -273,17 +263,11 @@ PREBUILT_RAMDISK_FILES := \
 
 #PRODUCT_COPY_FILES += \
 #	$(foreach f,$(PREBUILT_RAMDISK_FILES),device/walton/ef4x/prebuilt/root/$(f):root/$(f))
-
-PRODUCT_PROPERTY_OVERRIDES += \
-	ro.sf.lcd_density=200
 	
 # da kharnal
 TARGET_PREBUILT_SHIT := device/walton/ef4x/kernel.ef4x
-TARGET_KERNEL_HEADERS := device/walton/ef4x/headers/
 PRODUCT_COPY_FILES += \
 	$(TARGET_PREBUILT_SHIT):kernel 
-PRODUCT_COPY_FILES += \
-	$(TARGET_KERNEL_HEADERS):obj
 
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_ef4x
@@ -291,3 +275,7 @@ PRODUCT_DEVICE := ef4x
 PRODUCT_BRAND := walton
 PRODUCT_MANUFACTURER := walton
 PRODUCT_MODEL := Primo EF4+
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.sf.lcd_density=200
+	ro.product.model=Primo EF4+
+	ro.product.device=ef4x
