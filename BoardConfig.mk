@@ -69,12 +69,13 @@ BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 BOARD_HOSTAPD_DRIVER := NL80211
 BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 WIFI_DRIVER_FW_PATH_PARAM := "/sys/module/dhd/parameters/firmware_path"
-WIFI_DRIVER_FW_PATH_STA := "/system/etc/wifi/bcmdhd_sta.bin"
-WIFI_DRIVER_FW_PATH_AP := "/system/etc/wifi/bcmdhd_apsta.bin"
+WIFI_DRIVER_FW_PATH_STA := "/system/vendor/firmware/fw_bcmdhd.bin"
+WIFI_DRIVER_FW_PATH_P2P := "/system/vendor/firmware/fw_bcmdhd.bin"
+WIFI_DRIVER_FW_PATH_AP := "/system/vendor/firmware/fw_bcmdhd_apsta.bin"
 WIFI_DRIVER_NVRAM_PATH_PARAM := "/sys/module/dhd/parameters/nvram_path"
 WIFI_DRIVER_NVRAM_PATH := "/system/etc/wifi/nvram_net.txt"
 WIFI_BAND := 802_11_ABG
-BOARD_HAVE_SAMSUNG_WIFI := true
+# BOARD_HAVE_SAMSUNG_WIFI := true
 
 # Graphics
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
@@ -112,10 +113,10 @@ TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 BOARD_SUPPRESS_EMMC_WIPE := true
 
 # PowerHAL
-TARGET_POWERHAL_VARIANT := scx35
+# TARGET_POWERHAL_VARIANT := scx35
 
 # Init
-TARGET_INIT_VENDOR_LIB := libinit_sec
+#TARGET_INIT_VENDOR_LIB := libinit_sec
 
 # Use dmalloc() for such low memory devices like us
 MALLOC_IMPL := dlmalloc
@@ -159,11 +160,14 @@ TARGET_KERNEL_ARCH := arm
 TARGET_KERNEL_HEADER_ARCH := arm
 
 # Resolution
-TARGET_SCREEN_HEIGHT := 960
-TARGET_SCREEN_WIDTH := 540
+TARGET_SCREEN_HEIGHT := 854
+TARGET_SCREEN_WIDTH := 480
 
 # Assert
 #TARGET_OTA_ASSERT_DEVICE := ef4x,Primo-EF4+,EF4X,sc7731c,walton
 
 # Recovery
 TARGET_RECOVERY_FSTAB := device/walton/ef4x/rootdir/fstab.sc8830
+
+# Hack for building without kernel sources
+$(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)

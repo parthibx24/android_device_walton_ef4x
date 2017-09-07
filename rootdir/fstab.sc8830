@@ -3,6 +3,7 @@
 # specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
 # <src>                                         <mnt_point>  <type>  <mnt_flags and options>             <fs_mgr_flags>
 
+
 /dev/block/platform/sdio_emmc/by-name/system   /system      ext4 rw,barrier=1                          wait
 /dev/block/platform/sdio_emmc/by-name/userdata /data        ext4 noatime,nosuid,nodev,nomblk_io_submit,noauto_da_alloc wait,encryptable=footer,check
 /dev/block/platform/sdio_emmc/by-name/cache	   /cache       ext4 noatime,nosuid,nodev,nomblk_io_submit,noauto_da_alloc wait,check,formattable
@@ -11,3 +12,7 @@
 # /devices/sdio_sd/mmc_host/mmc1/mmc1:*/block/mmcblk1      auto auto defaults voldmanaged=extSdCard:auto,encryptable=userdata
 # /devices/20200000.usb/usb                                auto auto defaults voldmanaged=usbdisk:auto
 /dev/block/zram0		                                 auto swap defaults zramstreams=4,notrim
+
+# Boot partitions
+/dev/block/platform/sdio_emmc/by-name/boot      /boot      emmc defaults										recoveryonly
+/dev/block/platform/sdio_emmc/by-name/recovery    /recovery  emmc defaults										recoveryonly

@@ -229,6 +229,7 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Rootdir
+TARGET_PROVIDES_INIT_RC := true
 PRODUCT_PACKAGES += \
 	fstab.sc8830 \
 	ef4x.rc \
@@ -243,6 +244,7 @@ PRODUCT_PACKAGES += \
 	init.sp7731c_1h10.rc \
 	ueventd.sp7731c_1h10.rc
 
+
 # Prebuilt ramdisk files
 PREBUILT_RAMDISK_FILES := \
 	lib/modules/autotst.ko \
@@ -254,8 +256,6 @@ PREBUILT_RAMDISK_FILES := \
 	sbin/healthd \
 	sbin/adbd \
 	sbin/resize2fs \
-	sbin/ueventd \
-	sbin/watchdogd \
 	sbin/charge \
 	sbin/efs \
 	sbin/init \
@@ -271,12 +271,15 @@ PREBUILT_RAMDISK_FILES := \
 	sepolicy \
 	service_contexts
 
-PRODUCT_COPY_FILES += \
-	$(foreach f,$(PREBUILT_RAMDISK_FILES),device/walton/ef4x/prebuilt/root/$(f):root/$(f))
+#PRODUCT_COPY_FILES += \
+#	$(foreach f,$(PREBUILT_RAMDISK_FILES),device/walton/ef4x/prebuilt/root/$(f):root/$(f))
+
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.sf.lcd_density=200
 	
 # da kharnal
 TARGET_PREBUILT_SHIT := device/walton/ef4x/kernel.ef4x
-TARGET_KERNEL_HEADERS := device/walton/ef4x6/headers
+TARGET_KERNEL_HEADERS := device/walton/ef4x/headers/
 PRODUCT_COPY_FILES += \
 	$(TARGET_PREBUILT_SHIT):kernel 
 PRODUCT_COPY_FILES += \

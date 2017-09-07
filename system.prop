@@ -1,5 +1,4 @@
 
-ro.sf.lcd_density=240
 ro.sf.lcd_width=154
 ro.sf.lcd_height=90
 ro.opengles.version=131072
@@ -46,7 +45,7 @@ sys.usb.gser.count=4
 ro.ril.hsxpa=1
 ro.ril.gprsclass=10
 persist.radio.multisim.config=dsds
-ro.telephony.ril_class=SC7730SERIL
+ro.telephony.ril_class=SC7731CRIL
 ro.ril.telephony.mqanelements=6
 persist.sys.sprd.modemreset=1
 persist.sys.sprd.wcnreset=1

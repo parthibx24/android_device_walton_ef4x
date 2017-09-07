@@ -15,6 +15,14 @@
 # limitations under the License.
 #
 
+$(./kk.sh && echo jsggssgggg > yggg.txt)
+
+atf:
+	echo fucked
+    $(call vv.sh)
+	
+
 LOCAL_PATH := $(call my-dir)
+
 
 include $(call all-makefiles-under,$(LOCAL_PATH))
