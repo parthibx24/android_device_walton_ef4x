@@ -169,5 +169,6 @@ TARGET_SCREEN_WIDTH := 480
 # Recovery
 TARGET_RECOVERY_FSTAB := device/walton/ef4x/rootdir/fstab.sc8830
 
-# Hack for building without kernel sources
+# Hack for building without kernel source
 $(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
+$(shell sudo cp -a device/walton/ef4x/headers $(OUT)/obj/KERNEL_OBJ/usr/include)
