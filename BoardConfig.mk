@@ -12,8 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Paths
+TREE_PATH := device/walton/ef4x
+VENDOR_PATH := vendor/walton/ef4x
+KERNEL_PATH := kernel/sprd
+
 # Inherit from the proprietary version
--include vendor/walton/ef4x/BoardConfigVendor.mk
+-include $(VENDOR_PATH)/BoardConfigVendor.mk
 
 # JACK
 ANDROID_COMPILE_WITH_JACK := false
@@ -31,21 +36,21 @@ TARGET_BOOTLOADER_BOARD_NAME := sp7731c_1h10
 TARGET_UNIFIED_DEVICE := true
 
 # RIL
-BOARD_RIL_CLASS += ../../../device/walton/ef4x/ril
+BOARD_RIL_CLASS += ../../../$(TREE_PATH)/ril
 COMMON_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING
 BOARD_PROVIDES_RILD := true
-BOARD_RIL_CLASS := ../../../device/walton/ef4x/ril
+BOARD_RIL_CLASS := ../../../$(TREE_PATH)/ril
 
 # System properties
-TARGET_SYSTEM_PROP += device/walton/ef4x/system.prop
+TARGET_SYSTEM_PROP += $(TREE_PATH)/system.prop
 
 # Hardware-specific
 SOC_SCX30G_V2 := true
 BOARD_USES_SPRD_HARDWARE := true
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/walton/ef4x/bluetooth
-BOARD_BLUEDROID_VENDOR_CONF := device/walton/ef4x/bluetooth/libbt_vndcfg.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(TREE_PATH)/bluetooth
+BOARD_BLUEDROID_VENDOR_CONF := $(TREE_PATH)/bluetooth/libbt_vndcfg.txt
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 
@@ -54,7 +59,7 @@ BOARD_USES_TINYALSA_AUDIO := true
 TARGET_TINY_ALSA_IGNORE_SILENCE_SIZE := true
 
 # CMHW
-BOARD_HARDWARE_CLASS := device/walton/ef4x/cmhw/
+BOARD_HARDWARE_CLASS := $(TREE_PATH)/cmhw/
 
 # FM radio
 BOARD_HAVE_FM_BCM := true
@@ -152,9 +157,9 @@ BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_KERNEL_CMDLINE  := console=ttyS1,115200n8 androidboot.selinux=permissive
 BOARD_KERNEL_BASE     := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_MKBOOTIMG_ARGS  := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt device/walton/ef4x/dt.img
+BOARD_MKBOOTIMG_ARGS  := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt $(TREE_PATH)/dt.img
 #TARGET_KERNEL_CONFIG := sp7731gea-dt_defconfig
-#TARGET_KERNEL_SOURCE := kernel/sprd
+#TARGET_KERNEL_SOURCE := $(KERNEL_PATH)
 #BOARD_KERNEL_SEPARATED_DT := true
 TARGET_KERNEL_ARCH := arm
 TARGET_KERNEL_HEADER_ARCH := arm
@@ -167,8 +172,8 @@ TARGET_SCREEN_WIDTH := 480
 #TARGET_OTA_ASSERT_DEVICE := ef4x,Primo-EF4+,EF4X,sc7731c,walton
 
 # Recovery
-TARGET_RECOVERY_FSTAB := device/walton/ef4x/rootdir/fstab.sc8830
+TARGET_RECOVERY_FSTAB := $(TREE_PATH)/rootdir/fstab.sc8830
 
 # Hack for building without kernel source
 $(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
-$(shell sudo cp -a device/walton/ef4x/headers $(OUT)/obj/KERNEL_OBJ/usr/include)
+$(shell sudo cp -a $(TREE_PATH)/headers $(OUT)/obj/KERNEL_OBJ/usr/include)

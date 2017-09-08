@@ -18,4 +18,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-	$(LOCAL_DIR)/ef4x.mk
+	$(TREE_PATH)/ef4x.mk

@@ -12,13 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOCAL_PATH := device/walton/ef4x
+# Paths
+TREE_PATH := device/walton/ef4x
+VENDOR_PATH := vendor/walton/ef4x
 
 # Overlays
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+DEVICE_PACKAGE_OVERLAYS += $(TREE_PATH)/overlay
 
 # Inherit from vendor tree
-$(call inherit-product-if-exists, vendor/walton/ef4x/ef4x-vendor.mk)
+$(call inherit-product-if-exists, $(VENDOR_PATH)/ef4x-vendor.mk)
 
 # Inherit from AOSP product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
@@ -28,11 +30,11 @@ $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+DEVICE_PACKAGE_OVERLAYS += $(TREE_PATH)/overlay
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/keylayout/sec_touchscreen.kl:system/usr/keylayout/sec_touchscreen.kl
+	$(TREE_PATH)/keylayout/sec_touchscreen.kl:system/usr/keylayout/sec_touchscreen.kl
 
 # Media config
 PRODUCT_PACKAGES += \
@@ -219,7 +221,6 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Rootdir
-#TARGET_PROVIDES_INIT_RC := true
 PRODUCT_PACKAGES += \
 	fstab.sc8830 \
 	ef4x.rc \
@@ -236,6 +237,7 @@ PRODUCT_PACKAGES += \
 
 
 # Prebuilt ramdisk files
+#TARGET_PROVIDES_INIT_RC := true
 PREBUILT_RAMDISK_FILES := \
 	lib/modules/autotst.ko \
 	lib/modules/mali.ko \
@@ -261,10 +263,10 @@ PREBUILT_RAMDISK_FILES := \
 	service_contexts
 
 #PRODUCT_COPY_FILES += \
-#	$(foreach f,$(PREBUILT_RAMDISK_FILES),device/walton/ef4x/prebuilt/root/$(f):root/$(f))
+#	$(foreach f,$(PREBUILT_RAMDISK_FILES),$(TREE_PATH)/prebuilt/root/$(f):root/$(f))
 	
 # da kharnal
-TARGET_PREBUILT_SHIT := device/walton/ef4x/kernel.ef4x
+TARGET_PREBUILT_SHIT := $(TREE_PATH)/kernel.ef4x
 PRODUCT_COPY_FILES += \
 	$(TARGET_PREBUILT_SHIT):kernel 
 
@@ -275,6 +277,6 @@ PRODUCT_BRAND := walton
 PRODUCT_MANUFACTURER := walton
 PRODUCT_MODEL := Primo EF4+
 PRODUCT_PROPERTY_OVERRIDES += \
-	ro.sf.lcd_density=200
-	ro.product.model=Primo EF4+
-	ro.product.device=ef4x
+	ro.sf.lcd_density=200 \
+	ro.product.model=Primo EF4+ \ 
+	ro.product.device=ef4x 
