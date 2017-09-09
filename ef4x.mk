@@ -27,10 +27,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
-
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
-
-DEVICE_PACKAGE_OVERLAYS += $(TREE_PATH)/overlay
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
@@ -193,7 +190,10 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 # Device props
 PRODUCT_PROPERTY_OVERRIDES := \
 	keyguard.no_require_sim=true \
-	ro.com.android.dataroaming=false
+	ro.com.android.dataroaming=false \
+	ro.sf.lcd_density=200 \
+	ro.product.model=Primo EF4+ \
+	ro.product.device=ef4x 
 
 # Languages
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -217,8 +217,6 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 	ro.debuggable=1 \
 	persist.sys.root_access=1 \
 	persist.service.adb.enable=1
-
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Rootdir
 PRODUCT_PACKAGES += \
@@ -265,10 +263,8 @@ PREBUILT_RAMDISK_FILES := \
 #PRODUCT_COPY_FILES += \
 #	$(foreach f,$(PREBUILT_RAMDISK_FILES),$(TREE_PATH)/prebuilt/root/$(f):root/$(f))
 	
-# da kharnal
-TARGET_PREBUILT_SHIT := $(TREE_PATH)/kernel.ef4x
-PRODUCT_COPY_FILES += \
-	$(TARGET_PREBUILT_SHIT):kernel 
+# Use prebuilt kernel
+TARGET_PREBUILT_KERNEL := $(TREE_PATH)/kernel.ef4x
 
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_ef4x
@@ -276,7 +272,3 @@ PRODUCT_DEVICE := ef4x
 PRODUCT_BRAND := walton
 PRODUCT_MANUFACTURER := walton
 PRODUCT_MODEL := Primo EF4+
-PRODUCT_PROPERTY_OVERRIDES += \
-	ro.sf.lcd_density=200 \
-	ro.product.model=Primo EF4+ \ 
-	ro.product.device=ef4x 

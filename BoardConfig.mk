@@ -17,9 +17,6 @@ TREE_PATH := device/walton/ef4x
 VENDOR_PATH := vendor/walton/ef4x
 KERNEL_PATH := kernel/sprd
 
-# Inherit from the proprietary version
--include $(VENDOR_PATH)/BoardConfigVendor.mk
-
 # JACK
 ANDROID_COMPILE_WITH_JACK := false
 
@@ -34,6 +31,7 @@ TARGET_CPU_SMP := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
 TARGET_BOOTLOADER_BOARD_NAME := sp7731c_1h10
 TARGET_UNIFIED_DEVICE := true
+USE_CAMERA_STUB := false
 
 # RIL
 BOARD_RIL_CLASS += ../../../$(TREE_PATH)/ril
@@ -117,12 +115,6 @@ BOARD_HAS_DOWNLOAD_MODE := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 BOARD_SUPPRESS_EMMC_WIPE := true
 
-# PowerHAL
-# TARGET_POWERHAL_VARIANT := scx35
-
-# Init
-#TARGET_INIT_VENDOR_LIB := libinit_sec
-
 # Use dmalloc() for such low memory devices like us
 MALLOC_IMPL := dlmalloc
 BOARD_USES_LEGACY_MMAP := true
@@ -169,7 +161,7 @@ TARGET_SCREEN_HEIGHT := 854
 TARGET_SCREEN_WIDTH := 480
 
 # Assert
-#TARGET_OTA_ASSERT_DEVICE := ef4x,Primo-EF4+,EF4X,sc7731c,walton
+TARGET_OTA_ASSERT_DEVICE := ef4x,EF4X,sc7731c,walton
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(TREE_PATH)/rootdir/fstab.sc8830
