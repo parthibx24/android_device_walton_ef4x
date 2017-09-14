@@ -19,6 +19,19 @@ Front Camera | 2.0 MP
 Release Date | July 2016
 
 ---
-STATUS : Rom boots in both stock lp and mm kernel (3.10.65)
+Status : Rom boots in both stock lolipop and marshmallow kernel(3.10.65).
+---
 
-
+Thanks to,
+ * [HadiKhoirudin](https://github.com/HadiKhoirudin)
+ * [remilia15](https://github.com/remilia15)
+ * [ngoquang2708](https://github.com/ngoquang2708)
+ * [maniac103](https://github.com/maniac103)
+ * [HassanSardar](https://github.com/HassanSardar)
+ * [fourkbomb](https://github.com/fourkbomb)
+ * [Rashed97](https://github.com/Rashed97)
+ * [muralivijay](https://github.com/muralivijay)
+ * [Naimur9800](https://github.com/Naimur9800)
+ * [Yeasir Arafat](https://www.facebook.com/yeasir.official)
+ * [Rafa Abie Manyoen](https://www.facebook.com/cahgantengbingitz)
+ * [Sudroid tech](https://www.facebook.com/groups/sudroid.tech)
