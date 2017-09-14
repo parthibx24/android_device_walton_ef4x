@@ -18,7 +18,7 @@ Rear Camera  | 5.0 MP, LED flash
 Front Camera | 2.0 MP
 Release Date | July 2016
 
-====
+---
 STATUS : Rom boots in both stock lp and mm kernel (3.10.65)
-====
+
 
