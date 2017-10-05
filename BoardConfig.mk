@@ -166,6 +166,9 @@ TARGET_OTA_ASSERT_DEVICE := ef4x,EF4X,sc7731c,walton
 # Recovery
 TARGET_RECOVERY_FSTAB := $(TREE_PATH)/rootdir/fstab.sc8830
 
+# sepolicy
+BOARD_SEPOLICY_DIRS += $(TREE_PATH)/sepolicy
+
 # Hack for building without kernel source
 $(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
 $(shell sudo cp -a $(TREE_PATH)/headers $(OUT)/obj/KERNEL_OBJ/usr/include)
