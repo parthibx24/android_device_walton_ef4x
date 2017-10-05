@@ -219,49 +219,18 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 	persist.service.adb.enable=1
 
 # Rootdir
+TARGET_PROVIDES_INIT_RC := true
 PRODUCT_PACKAGES += \
 	fstab.sc8830 \
-	ef4x.rc \
+	fstab.sp7731c_1h10 \
+	init.board.rc \
+	init.rc \
 	init.sc8830.rc \
 	init.sc8830.usb.rc \
-	init.sc8830_ss.rc \
-	init.board.rc \
-	init.wifi.rc \
 	ueventd.sc8830.rc \
-	fstab.sp7731c_1h10 \
 	init.recovery.sp7731c_1h10.rc \
 	init.sp7731c_1h10.rc \
 	ueventd.sp7731c_1h10.rc
-
-
-# Prebuilt ramdisk files
-#TARGET_PROVIDES_INIT_RC := true
-PREBUILT_RAMDISK_FILES := \
-	lib/modules/autotst.ko \
-	lib/modules/mali.ko \
-	lib/modules/gator.ko \
-	lib/modules/trout_fm.ko \
-	lib/modules/mmc_test.ko \
-	lib/modules/sprdwl.ko \
-	sbin/healthd \
-	sbin/adbd \
-	sbin/resize2fs \
-	sbin/charge \
-	sbin/efs \
-	sbin/init_su \
-	sbin/intextSdCard \
-	sbin/mkfs.f2fs \
-	sbin/sswap \
-	file_contexts \
-	init.rc \
-	init \
-	property_contexts \
-	seapp_contexts \
-	sepolicy \
-	service_contexts
-
-#PRODUCT_COPY_FILES += \
-#	$(foreach f,$(PREBUILT_RAMDISK_FILES),$(TREE_PATH)/prebuilt/root/$(f):root/$(f))
 	
 # Use prebuilt kernel
 TARGET_PREBUILT_KERNEL := $(TREE_PATH)/kernel.ef4x
