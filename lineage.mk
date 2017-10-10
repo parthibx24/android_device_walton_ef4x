@@ -14,6 +14,6 @@ $(call inherit-product, $(LOCAL_PATH)/ef4x.mk)
 PRODUCT_DEVICE := ef4x
 PRODUCT_NAME := lineage_ef4x
 PRODUCT_BRAND := walton
-PRODUCT_MODEL := Primo EF4+
+PRODUCT_MODEL := Primo-EF4+
 PRODUCT_MANUFACTURER := walton
 PRODUCT_CHARACTERISTICS := phone

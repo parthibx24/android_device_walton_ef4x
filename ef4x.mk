@@ -34,8 +34,6 @@ PRODUCT_COPY_FILES += \
 	$(TREE_PATH)/keylayout/sec_touchscreen.kl:system/usr/keylayout/sec_touchscreen.kl
 
 # Media config
-PRODUCT_PACKAGES += \
-	media_profiles.xml
 MEDIA_XML_CONFIGS := \
 	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml \
 	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml \
@@ -47,7 +45,8 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_PACKAGES += \
 	media_codecs.xml \
-	media_codecs_performance.xml
+	media_codecs_performance.xml \
+	media_profiles.xml 
 
 # Permissions
 PERMISSIONS_XML_FILES := \
@@ -60,17 +59,18 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	audio_hw.xml \
 	audio_para \
+	audio_effects.conf \
 	audio_effects_vendor.conf \
 	audio_policy.conf \
 	codec_pga.xml \
 	tiny_hw.xml \
-	audio.primary.sc8830 \
 	libaudio-resampler \
 	libatchannel_wrapper \
-	audio.a2dp.default \
-	audio.usb.default \
-	audio.r_submix.default \
 	libtinyalsa
+#	audio.a2dp.default \
+#	audio.usb.default \
+#	audio.r_submix.default \
+#	audio.primary.sc8830 \
 
 # Bluetooth
 PRODUCT_PACKAGES += \
@@ -80,10 +80,12 @@ PRODUCT_PACKAGES += \
 
 # HWC
 PRODUCT_PACKAGES += \
-	gralloc.sc8830 \
-	sprd_gsp.sc8830 \
 	libmemoryheapion \
-	libion_sprd
+	libion_sprd \
+	gralloc.sc8830 \
+	sprd_gsp.sc8830 
+
+USE_PREBUILT_HWCOMPOSER := true
 
 # Codecs
 PRODUCT_PACKAGES += \
@@ -113,19 +115,10 @@ PRODUCT_PACKAGES += \
 	wpa_supplicant \
 	hostapd
 
-# PowerHAL
-PRODUCT_PACKAGES += \
-	power.sc8830
-
-# FM radio
-PRODUCT_PACKAGES += \
-	fm.sc8830
-
 # Common libs
 PRODUCT_PACKAGES += \
 	libstlport \
-	libril_shim \
-	libgps_shim
+	libril_shim
 
 # Permissions
 PERMISSIONS_XML_FILES := \
@@ -164,11 +157,17 @@ PRODUCT_PACKAGES += \
 	fibmap.f2fs \
 	fsck.f2fs \
 	mkfs.f2fs \
+	resize2fs \
 	setup_fs \
 
-# Misc packages
+# Touch
+PRODUCT_PACKAGES += \
+	msg22xx.idc
+
+# Misc
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory \
+	pskey_bt.txt
     
 # Camera config
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -191,14 +190,14 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES := \
 	keyguard.no_require_sim=true \
 	ro.com.android.dataroaming=false \
-	ro.sf.lcd_density=200 \
-	ro.product.model=Primo EF4+ \
-	ro.product.device=ef4x 
+	ro.sf.lcd_density=200 
+#	ro.product.model=Primo-EF4+ 
+#	ro.product.device=ef4x 
 
 # Languages
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.product.locale.language=en \
-	ro.product.locale.region=GB
+	ro.product.locale.region=US
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
@@ -220,7 +219,7 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 
 # Rootdir
 TARGET_PROVIDES_INIT_RC := true
-PRODUCT_PACKAGES += \
+ROOTFILES := \
 	fstab.sc8830 \
 	fstab.sp7731c_1h10 \
 	init.board.rc \
@@ -228,10 +227,19 @@ PRODUCT_PACKAGES += \
 	init.sc8830.rc \
 	init.sc8830.usb.rc \
 	ueventd.sc8830.rc \
-	init.recovery.sp7731c_1h10.rc \
-	init.sp7731c_1h10.rc \
 	ueventd.sp7731c_1h10.rc
-	
+
+PRODUCT_COPY_FILES += \
+    $(foreach f,$(ROOTFILES),$(TREE_PATH)/rootdir/$(f):root/$(f))
+
+PRODUCT_PACKAGES += \
+	autotst.ko \
+	gator.ko \
+	mali.ko \
+	mmc_test.ko \
+	sprdwl.ko \
+	trout_fm.ko 
+
 # Use prebuilt kernel
 TARGET_PREBUILT_KERNEL := $(TREE_PATH)/kernel.ef4x
 
@@ -240,4 +248,4 @@ PRODUCT_NAME := full_ef4x
 PRODUCT_DEVICE := ef4x
 PRODUCT_BRAND := walton
 PRODUCT_MANUFACTURER := walton
-PRODUCT_MODEL := Primo EF4+
+PRODUCT_MODEL := Primo-EF4+

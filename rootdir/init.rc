@@ -18,6 +18,15 @@ on early-init
     # Set init and its forked children's oom_adj.
     write /proc/1/oom_score_adj -1000
 
+    # Apply strict SELinux checking of PROT_EXEC on mmap/mprotect calls.
+    write /sys/fs/selinux/checkreqprot 0
+
+    # Set the security context for the init process.
+    # This should occur before anything else (e.g. ueventd) is started.
+    setcon u:r:init:s0
+	setenforce 0
+    write /sys/fs/selinux/enforce 0
+
     # Set the security context of /adb_keys if present.
     restorecon /adb_keys
 
@@ -659,7 +668,7 @@ service ril-daemon /system/bin/rild
     socket sap_uim_socket1 stream 660 bluetooth bluetooth
     socket rild-debug stream 660 radio system
     user root
-    group radio cache inet misc audio log
+    group radio cache inet misc audio log qcom_diag
 
 service surfaceflinger /system/bin/surfaceflinger
     class core

@@ -146,7 +146,7 @@ TARGET_USERIMAGES_USE_F2FS := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 
 # Kernel
-BOARD_KERNEL_CMDLINE  := console=ttyS1,115200n8 androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE  := console=ttyS1,115200n8
 BOARD_KERNEL_BASE     := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS  := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt $(TREE_PATH)/dt.img
@@ -164,7 +164,7 @@ TARGET_SCREEN_WIDTH := 480
 TARGET_OTA_ASSERT_DEVICE := ef4x,EF4X,sc7731c,walton
 
 # Recovery
-TARGET_RECOVERY_FSTAB := $(TREE_PATH)/rootdir/fstab.sc8830
+TARGET_RECOVERY_FSTAB := $(TREE_PATH)/configs/misc/recovery.fstab
 
 # sepolicy
 BOARD_SEPOLICY_DIRS += $(TREE_PATH)/sepolicy
