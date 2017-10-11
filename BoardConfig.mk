@@ -163,6 +163,9 @@ TARGET_SCREEN_WIDTH := 480
 # Assert
 TARGET_OTA_ASSERT_DEVICE := ef4x,EF4X,sc7731c,walton
 
+# ota block
+BLOCK_BASED_OTA := false
+
 # Recovery
 TARGET_RECOVERY_FSTAB := $(TREE_PATH)/configs/misc/recovery.fstab
 
