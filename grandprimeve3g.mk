@@ -51,6 +51,9 @@ PRODUCT_PACKAGES += \
 	init.sc8830.usb.rc \
 	ueventd.sc8830.rc
 
+# Use prebuilt kernel
+TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel.ef4x
+
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_grandprimeve3g
 PRODUCT_DEVICE := grandprimeve3g
