@@ -48,3 +48,7 @@ TARGET_SCREEN_WIDTH := 540
 
 # Assert
 TARGET_OTA_ASSERT_DEVICE := SM-G531H,SM-G531BT,grandprimeve3g,grandprimeve3gdtv,grandprimeve3gub,grandprimeve3gxx,grandprimeve3gdtvvj
+
+# Hack for building without kernel source
+$(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
+$(shell sudo cp -a $(TREE_PATH)/headers $(OUT)/obj/KERNEL_OBJ/usr/include)
