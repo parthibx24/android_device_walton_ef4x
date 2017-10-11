@@ -16,7 +16,4 @@
 #
 
 LOCAL_PATH := $(call my-dir)
-
-ifneq (,$(filter grandprimeve3g,$(TARGET_DEVICE)))
 include $(call all-makefiles-under,$(LOCAL_PATH))
-endif
