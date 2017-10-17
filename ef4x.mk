@@ -243,6 +243,10 @@ PRODUCT_PACKAGES += \
 # Use prebuilt kernel
 TARGET_PREBUILT_KERNEL := $(TREE_PATH)/kernel.ef4x
 
+# CM PACKAGES
+PRODUCT_PACKAGES += \
+	HexoLibre
+
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_ef4x
 PRODUCT_DEVICE := ef4x
