@@ -166,6 +166,9 @@ TARGET_OTA_ASSERT_DEVICE := ef4x,EF4X,sc7731c,walton
 # ota block
 BLOCK_BASED_OTA := false
 
+# Root
+WITH_SU := true
+
 # Recovery
 TARGET_RECOVERY_FSTAB := $(TREE_PATH)/configs/misc/recovery.fstab
 
