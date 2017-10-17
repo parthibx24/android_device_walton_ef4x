@@ -31,8 +31,8 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
-	$(TREE_PATH)/keylayout/sec_touchscreen.kl:system/usr/keylayouts/sec_touchscreen.kl \
-	$(TREE_PATH)/keylayout/Generic.kl:system/usr/keylayouts/Generic.kl.kl
+	$(TREE_PATH)/keylayouts/sec_touchscreen.kl:system/usr/keylayouts/sec_touchscreen.kl \
+	$(TREE_PATH)/keylayouts/Generic.kl:system/usr/keylayouts/Generic.kl.kl
 
 # Media config
 MEDIA_XML_CONFIGS := \
