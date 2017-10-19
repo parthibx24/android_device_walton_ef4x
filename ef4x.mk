@@ -251,6 +251,6 @@ PRODUCT_PACKAGES += \
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_ef4x
 PRODUCT_DEVICE := ef4x
-PRODUCT_BRAND := walton
-PRODUCT_MANUFACTURER := walton
-PRODUCT_MODEL := Primo-EF4+
+PRODUCT_BRAND := WALTON
+PRODUCT_MANUFACTURER := WALTON
+PRODUCT_MODEL := Primo EF4+
