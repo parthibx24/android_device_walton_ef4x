@@ -18,7 +18,8 @@ VENDOR_PATH := vendor/walton/ef4x
 KERNEL_PATH := kernel/sprd
 
 # JACK
-ANDROID_COMPILE_WITH_JACK := false
+#ANDROID_COMPILE_WITH_JACK := false
+$(shell export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx3300m")
 
 # Platform
 TARGET_ARCH := arm
