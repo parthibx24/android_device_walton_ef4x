@@ -5,15 +5,16 @@ on early-init
     mount debugfs debugfs /sys/kernel/debug
     chmod 755 /sys/kernel/debug
 
-	#set logd property
-	setprop logd.klogd false
+    #set logd property
+    setprop logd.klogd false
 
     # set core dump resource limit
     setrlimit 4 2147483647 2147483647
 
     # coredump file will not be generated in release version
     write /proc/sys/kernel/core_pattern /dev/null
-# radio pipe
+
+    # radio pipe
     mkdir /dev/rpipe 0550 radio radio
     pipe 666 /dev/rpipe/ril.vt.0
     pipe 666 /dev/rpipe/ril.vt.1
@@ -30,10 +31,6 @@ on init
     mkdir /mnt/runtime/read/emulated 0700 root root
     mkdir /mnt/runtime/write/emulated 0700 root root
 
-    # SPRD: move this to board level init @{
-    #export EXTERNAL_STORAGE /storage/emulated/legacy
-    #export SECONDARY_STORAGE /storage/sdcard0
-    # @}
     export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
     export EMULATED_STORAGE_TARGET /storage/emulated
 
@@ -58,26 +55,24 @@ on fs
     mount_all /fstab.sc8830
     mount pstore pstore /sys/fs/pstore
     setprop ro.crypto.fuse_sdcard true
-	symlink /system/res /res
-	symlink /system/bin /bin
+    symlink /system/res /res
+    symlink /system/bin /bin
 
-#Allow others to read fb devices
+    #Allow others to read fb devices
     chmod 660 /dev/graphics/fb0
     chmod 660 /dev/fb0
 
 on post-fs
     chown system system /productinfo
     chmod 0771 /productinfo
-	insmod /lib/modules/autotst.ko
-	insmod /lib/modules/gator.ko
-	insmod /lib/modules/mmc_test.ko
+    insmod /lib/modules/autotst.ko
+    insmod /lib/modules/gator.ko
+    insmod /lib/modules/mmc_test.ko
     insmod /lib/modules/mali.ko
     insmod /lib/modules/sprdwl.ko
     insmod /lib/modules/trout_fm.ko
-# MOD {
     insmod /system/lib/modules/focaltech_ts.ko
     insmod /system/lib/modules/mxc400x.ko
-#}
 
 on post-fs-data
     copy /system/etc/bluetooth/bt_stack.conf /data/misc/bluedroid/bt_stack.conf
@@ -89,16 +84,14 @@ on post-fs-data
     mkdir /data/local/englog 0777
     mkdir /data/sprdinfo 0771 system system
     chown system system /data/apr.conf
-	mkdir /data/slog 0777
-	mkdir /data/ylog 0777
-	mkdir /data/mlog 0777
+    mkdir /data/slog 0777
+    mkdir /data/ylog 0777
+    mkdir /data/mlog 0777
     mkdir /data/misc/hprofs 0777
-# MOD {
-    mkdir /data/local/tmp/slogmodem 0770 shell system
-    mkdir /data/modem_log 0770 shell system
-#}
+
     # Set indication (checked by vold) that we have finished this action
     setprop vold.post_fs_data_done 1
+
     # to force to start sdcard
     class_start late_start
 
@@ -109,6 +102,7 @@ on early-boot
     # Support audio loopback test
     mkdir /dev/pipe 0755 system system
     pipe 666 /dev/pipe/mmi.audio.ctrl
+
     # Support audio parameter stored
     mkdir /data/local/media 0777 media system
     chown system root /proc/cppmic/stop
@@ -306,10 +300,10 @@ on boot
 
 # }
 
-on charger
-    class_start core
-    start console
-    start slog
+#on charger
+#    class_start core
+#    start console
+#    start slog
 
 service poweroffalarm /system/bin/poweroff_alarm
     disabled
@@ -348,13 +342,12 @@ service zram /system/xbin/zram.sh
         disabled
         oneshot
 
-
 on property:ro.debuggable=1
     write /sys/kernel/debug/fatal_dump/enable 1
     mkdir /data/corefile
     chmod 777 /data/corefile
-	mkdir /data/slog 0777
-	mkdir /data/ylog 0777
+    mkdir /data/slog 0777
+    mkdir /data/ylog 0777
     mkdir /data/misc/hprofs 0777
     chmod 777 /sys/kernel/debug/sc2713-regulator/vddarm/voltage
     chmod 777 /sys/kernel/debug/sc2713-regulator/vddcore/voltage
@@ -364,12 +357,9 @@ on property:ro.debuggable=1
     write /proc/sys/kernel/core_pattern /data/corefile/core-%e-%p
     write /proc/sys/fs/suid_dumpable 1
     write /sys/module/smsg/parameters/debug_enable 1
-#	start ylog
+    #start ylog
     setprop persist.sys.slog.enabled 1
     # CTS for slog, enable the slog daemon in debug version anyway.
-
-on property:ro.product.name=sp9838aea_auto_slt
-    setprop persist.sys.sprd.mtbf 0
 
 on property:ro.modem.t.count=1
     write /proc/sim/0 t
@@ -469,17 +459,6 @@ service phoneserver /system/bin/phoneserver
     user root
     group radio system shell dhcp
     disabled
-    oneshot
-
-service batterysrv /bin/batterysrv
-    class core
-    user system
-    group system
-    oneshot
-
-service charge /bin/charge
-    class charger
-    user root
     oneshot
 
 #wcdma rild service
@@ -766,20 +745,6 @@ service engpcclientlf /system/bin/engpc -p lf -a /dev/ttyGS5 -d /dev/ttyGS6 -l /
     disabled
     oneshot
 
-#volte
-service modemDriver /system/bin/modemDriver_vpad_main
-    class core
-    user system
-    group system radio shell
-
-on property:persist.sys.volte.enable=true
-    start modemDriver
-
-service thermald /system/bin/thermald
-    class main
-    user system
-    group system
-
 # MOD {
 service GPSenseEngine /system/bin/GPSenseEngine
      class main
@@ -811,80 +776,9 @@ service pbap /system/bin/sdptool add --channel=19 PBAP
     disabled
     oneshot
 
-#service hciattach /system/bin/hciattach -n /dev/sttybt0 sprd_shark
-#    socket bluetooth stream 660 bluetooth bluetooth
-#    user bluetooth
-#    group wifi bluetooth net_bt_admin net_bt inet net_raw net_admin system
-#    disabled
-#    oneshot
-
 service btld  /system/bin/btld -lpm 0 -hb 3000000
     user root
     group bluetooth net_bt_admin
-    disabled
-    oneshot
-
-service p2p_supplicant /system/bin/wpa_supplicant \
-    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -I/system/etc/wifi/wpa_supplicant_overlay.conf -N \
-    -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0 -dd
-    #   we will start as root and wpa_supplicant will switch to user wifi
-    #   after setting up the capabilities required for WEXT
-    #   user wifi
-    #   group wifi inet keystore
-    class main
-    socket wpa_wlan0 dgram 660 wifi wifi
-    disabled
-    oneshot
-
-service wpa_supplicant /system/bin/wpa_supplicant \
-    -Dnl80211 -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -g@android:wpa_wlan0 -dd
-    group system wifi inet keystore
-    socket wpa_wlan0 dgram 660 wifi wifi
-    disabled
-    oneshot
-
-service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
-    group system dhcp
-    disabled
-    oneshot
-
-service dhcpcd_p2p /system/bin/dhcpcd -ABKL
-    group system dhcp
-    disabled
-    oneshot
-
-service iprenew_wlan0 /system/bin/dhcpcd -n
-    class main
-    group system dhcp
-    disabled
-    oneshot
-
-service iprenew_p2p /system/bin/dhcpcd -n
-    class main
-    group system dhcp
-    disabled
-    oneshot
-
-service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
-
-service iprenew_bnep0 /system/bin/dhcpcd -n
-    class main
-    disabled
-    oneshot
-
-service dhcpcd_bt-pan /system/bin/dhcpcd -BKLG
-   disabled
-   oneshot
-
-
-service iprenew_bt-pan /system/bin/dhcpcd -n
-    disabled
-    oneshot
-
-service dhcp6c_wifi /system/bin/dhcp6c -c /data/misc/dhcp6c/dhcp6c.conf
     disabled
     oneshot
 

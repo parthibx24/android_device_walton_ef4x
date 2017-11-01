@@ -1,6 +1,4 @@
 
-import /init.storage.rc
-
 on early-boot
     chmod 660 /proc/cpgge/wdtirq
     chmod 660 /proc/cpgge/stop
@@ -128,13 +126,6 @@ service pbap /system/bin/sdptool add --channel=19 PBAP
     disabled
     oneshot
 
-#service hciattach /system/bin/hciattach -n /dev/sttybt0 sprd_shark
-#    socket bluetooth stream 660 bluetooth bluetooth
-#    user bluetooth
-#    group wifi bluetooth net_bt_admin net_bt inet net_raw net_admin system
-#    disabled
-#    oneshot
-
 service btld  /system/bin/btld -lpm 0 -hb 3000000
     user root
     group bluetooth net_bt_admin
@@ -144,10 +135,6 @@ service btld  /system/bin/btld -lpm 0 -hb 3000000
 service p2p_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -I/system/etc/wifi/wpa_supplicant_overlay.conf -N \
     -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0 -dd
-    #   we will start as root and wpa_supplicant will switch to user wifi
-    #   after setting up the capabilities required for WEXT
-    #   user wifi
-    #   group wifi inet keystore
     class main
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
@@ -216,6 +203,12 @@ service slogmodem /system/bin/slogmodem
 
 on alarm
     insmod /lib/modules/focaltech_ts.ko
+
+service healthd-charger /sbin/healthd -c
+    class charger
+    critical
+    seclabel u:r:healthd:s0
+
 
 # chown for engineermode
 chown system system /sys/module/smsg/parameters/assert_trigger
