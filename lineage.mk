@@ -10,6 +10,10 @@ $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 # Inherit device configuration
 $(call inherit-product, $(LOCAL_PATH)/ef4x.mk)
 
+# Camera
+PRODUCT_PACKAGES += \
+    Snap
+
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := ef4x
 PRODUCT_NAME := lineage_ef4x
