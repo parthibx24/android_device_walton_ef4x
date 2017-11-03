@@ -50,11 +50,15 @@ ro.debuggable=1 \
 service.adb.root=1 \
 persist.sys.usb.config=adb
 
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/fstab.sc8830:recovery/root/fstab.sc8830 \
+	$(LOCAL_PATH)/ueventd.sc8830.rc:recovery/root/ueventd.sc8830.rc \
+
 #TWRP Recovery
 BOARD_HAS_NO_SELECT_BUTTON                   := true
 TARGET_RECOVERY_FSTAB                        := $(LOCAL_PATH)/twrp.fstab
 BOARD_HAS_LARGE_FILESYSTEM                   := true
-TARGET_RECOVERY_PIXEL_FORMAT                 := "RGBX_8888"
+TARGET_RECOVERY_PIXEL_FORMAT                 := "RGB_565"
 SP1_NAME                                     := "internal_sd"
 SP1_BACKUP_METHOD                            := files
 SP1_MOUNTABLE                                := 1
@@ -78,4 +82,4 @@ TWHAVE_SELINUX                               := true
 BOARD_RECOVERY_NEEDS_FBIOPAN_DISPLAY         := true
 TW_INCLUDE_FB2PNG                            := true
 TW_SCREEN_BLANK_ON_BOOT                      := true
-NUM_FRAMEBUFFER_SURFACE_BUFFERS	 := 3
+NUM_FRAMEBUFFER_SURFACE_BUFFERS			 := 3
