@@ -71,6 +71,14 @@ on post-fs
     insmod /lib/modules/mali.ko
     insmod /lib/modules/sprdwl.ko
     insmod /lib/modules/trout_fm.ko
+    insmod /lib/modules/focaltech_ts.ko
+    insmod /lib/modules/mxc400x.ko
+    insmod /system/lib/modules/autotst.ko
+    insmod /system/lib/modules/gator.ko
+    insmod /system/lib/modules/mmc_test.ko
+    insmod /system/lib/modules/mali.ko
+    insmod /system/lib/modules/sprdwl.ko
+    insmod /system/lib/modules/trout_fm.ko
     insmod /system/lib/modules/focaltech_ts.ko
     insmod /system/lib/modules/mxc400x.ko
 
