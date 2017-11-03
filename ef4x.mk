@@ -25,6 +25,9 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # WIFI
 $(call inherit-product, vendor/sprd/wcn/scx31c/wifi/scx31c-wifi.mk)
 
+# Common Proprietary
+$(call inherit-product, vendor/sprd/proprietaries/scx31c/proprietaries-scx31c.mk)
+
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
