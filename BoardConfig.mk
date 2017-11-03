@@ -49,7 +49,7 @@ TARGET_USE_SC7731C_KERNEL_HEADER := true
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(TREE_PATH)/configs/bluetooth
-BOARD_BLUEDROID_VENDOR_CONF := $(TREE_PATH)/bluetooth/configs/libbt_vndcfg.txt
+BOARD_BLUEDROID_VENDOR_CONF := $(TREE_PATH)/configs/bluetooth/libbt_vndcfg.txt
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 
@@ -157,6 +157,8 @@ TARGET_RECOVERY_FSTAB := $(TREE_PATH)/configs/misc/recovery.fstab
 
 # sepolicy
 BOARD_SEPOLICY_DIRS += $(TREE_PATH)/sepolicy
+
+INSTALL_KERNEL_MODULES_ON_RAMDISK := true
 
 # Hack for building without kernel source
 $(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
