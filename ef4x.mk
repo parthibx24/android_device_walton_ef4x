@@ -258,7 +258,7 @@ PRODUCT_COPY_FILES += \
 	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f))) \
 	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f))) \
 	$(foreach f,$(KEYLAYOUT_CONFIGS),$(TREE_PATH)/configs/keylayout/$(f):system/usr/keylayout/$(f)) \
-	$(foreach f,$(PROPRIETARY_FILES),$(TREE_PATH)/proprietary/lib/hw/:system/lib/(f)) \
+	$(foreach f,$(PROPRIETARY_FILES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/(f)) \
 	$(foreach f,$(PREBUILT_AUDIO_PACKAGES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
 	$(foreach f,$(PREBUILT_CAMERA_PACKAGES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
 	$(foreach f,$(PREBUILT_HWC_PACKAGES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
