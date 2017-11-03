@@ -19,20 +19,20 @@ VENDOR_PATH := vendor/walton/ef4x
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += $(TREE_PATH)/overlay
 
-# Inherit from vendor tree
-$(call inherit-product-if-exists, $(VENDOR_PATH)/ef4x-vendor.mk)
-
 # Inherit from AOSP product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+
+# WIFI
+$(call inherit-product, vendor/sprd/wcn/scx31c/wifi/scx31c-wifi.mk)
 
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # Keylayouts
-PRODUCT_COPY_FILES += \
-	$(TREE_PATH)/configs/keylayout/sec_touchscreen.kl:system/usr/keylayout/sec_touchscreen.kl \
-	$(TREE_PATH)/configs/keylayout/Generic.kl:system/usr/keylayout/Generic.kl
+KEYLAYOUT_CONFIGS := \
+	sec_touchscreen.kl \
+	Generic.kl
 
 # Media config
 MEDIA_XML_CONFIGS := \
@@ -40,9 +40,6 @@ MEDIA_XML_CONFIGS := \
 	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml \
 	frameworks/av/media/libstagefright/data/media_codecs_google_video_le.xml \
 	frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml
-
-PRODUCT_COPY_FILES += \
-	$(foreach f,$(MEDIA_XML_CONFIGS),$(f):system/etc/$(notdir $(f)))
 
 PRODUCT_PACKAGES += \
 	media_codecs.xml \
@@ -52,9 +49,6 @@ PRODUCT_PACKAGES += \
 # Permissions
 PERMISSIONS_XML_FILES := \
 	frameworks/native/data/etc/android.hardware.sensor.compass.xml
-
-PRODUCT_COPY_FILES += \
-	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f)))
 
 # Audio
 PRODUCT_PACKAGES += \
@@ -68,16 +62,21 @@ PRODUCT_PACKAGES += \
 	libaudio-resampler \
 	libatchannel_wrapper \
 	libtinyalsa
-#	audio.a2dp.default \
-#	audio.usb.default \
-#	audio.r_submix.default \
-#	audio.primary.sc8830 \
+PREBUILT_AUDIO_PACKAGES := \
+	hw/audio.a2dp.default.so \
+	hw/audio.primary.sc8830.so \
+	hw/audio.r_submix.default.so \
+	hw/audio.usb.default.so \
+	hw/audio_policy.default.so \
+	hw/audio_policy.sc8830.so \
 
 # Bluetooth
 PRODUCT_PACKAGES += \
 	bt_vendor.conf \
 	libbluetooth_jni \
 	bluetooth.default
+PREBUILT_BT_PACKAGES := \
+	hw/bluetooth.sc8830.so
 
 # HWC
 PRODUCT_PACKAGES += \
@@ -85,8 +84,11 @@ PRODUCT_PACKAGES += \
 	libion_sprd \
 	gralloc.sc8830 \
 	sprd_gsp.sc8830 
-
-USE_PREBUILT_HWCOMPOSER := true
+PREBUILT_HWC_PACKAGES := \
+	egl/libGLES_mali.so \
+	hw/gralloc.sc8830.so \
+	hw/hwcomposer.sc8830.so \
+	hw/sprd_gsp.sc8830.so \
 
 # Codecs
 PRODUCT_PACKAGES += \
@@ -98,23 +100,9 @@ PRODUCT_PACKAGES += \
 	libstagefright_sprd_h264enc \
 	libstagefright_sprd_vpxdec
 
-# Lights
-PRODUCT_PACKAGES += \
-	lights.sc8830
-
 # GPS
 PRODUCT_PACKAGES += \
 	gps.xml
-
-# WiFi
-PRODUCT_PACKAGES += \
-	wpa_supplicant_overlay.conf \
-	p2p_supplicant_overlay.conf \
-	nvram_net.txt \
-	macloader \
-	dhcpcd.conf \
-	wpa_supplicant \
-	hostapd
 
 # Common libs
 PRODUCT_PACKAGES += \
@@ -144,9 +132,6 @@ PERMISSIONS_XML_FILES := \
 	frameworks/native/data/etc/android.software.sip.voip.xml \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml \
 
-PRODUCT_COPY_FILES += \
-	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f)))
-
 # ART device props
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.sys.fw.dex2oat_thread_count=4 \
@@ -168,11 +153,28 @@ PRODUCT_PACKAGES += \
 # Misc
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory \
-	pskey_bt.txt
+	pskey_bt.txt \
+	power.default \
+	vibrator.default \
+	local_time.default \
+	keystore.default \
+	gps.default
     
-# Camera config
+# Camera
 PRODUCT_PROPERTY_OVERRIDES += \
 	camera.disable_zsl_mode=1
+PREBUILT_CAMERA_PACKAGES := \
+	hw/camera.sc8830.so \
+	libae.so \
+	libAF.so \
+	libaf_tune.so \
+	libawb.so \
+	libdeflicker.so \
+	libface_finder.so \
+	libm.so \
+	libsft_af_ctrl.so \
+	libsprd_easy_hdr.so \
+	libts_face_beautify_hal.so \
 
 # Compat
 PRODUCT_PACKAGES += \
@@ -209,6 +211,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
 $(call inherit-product, frameworks/native/build/phone-hdpi-2048-dalvik-heap.mk)
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
+##
+PROPRIETARY_FILES := \
+	hw/fm.sc8830.so \
+	hw/lights.sc8830.so \
+	hw/power.sc8830.so \
+	hw/sensors.sc8830.so \
+
+
 # For userdebug builds
 ADDITIONAL_DEFAULT_PROPERTIES += \
 	ro.secure=0 \
@@ -228,20 +238,26 @@ ROOTFILES := \
 	init.sc8830.usb.rc \
 	ueventd.sc8830.rc \
 	ueventd.sp7731c_1h10.rc
-
-PRODUCT_COPY_FILES += \
-    $(foreach f,$(ROOTFILES),$(TREE_PATH)/rootdir/$(f):root/$(f))
-
 PRODUCT_PACKAGES += \
 	autotst.ko \
 	gator.ko \
 	mali.ko \
 	mmc_test.ko \
 	sprdwl.ko \
-	trout_fm.ko 
+	trout_fm.ko
 
-# Use prebuilt kernel
-TARGET_PREBUILT_KERNEL := $(TREE_PATH)/kernel.ef4x
+# Copy product packages
+PRODUCT_COPY_FILES += \
+	$(foreach f,$(MEDIA_XML_CONFIGS),$(f):system/etc/$(notdir $(f))) \
+	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f))) \
+	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f))) \
+	$(foreach f,$(KEYLAYOUT_CONFIGS),$(TREE_PATH)/configs/keylayout/$(f):system/usr/keylayout/$(f)) \
+	$(foreach f,$(PROPRIETARY_FILES),$(TREE_PATH)/proprietary/lib/hw/:system/lib/(f)) \
+	$(foreach f,$(PREBUILT_AUDIO_PACKAGES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
+	$(foreach f,$(PREBUILT_CAMERA_PACKAGES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
+	$(foreach f,$(PREBUILT_HWC_PACKAGES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
+	$(foreach f,$(PREBUILT_BT_PACKAGES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
+	$(foreach f,$(ROOTFILES),$(TREE_PATH)/rootdir/$(f):root/$(f))
 
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_ef4x
