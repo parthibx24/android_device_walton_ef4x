@@ -204,22 +204,11 @@ service slogmodem /system/bin/slogmodem
 on alarm
     insmod /lib/modules/focaltech_ts.ko
 
-#service healthd-charger /sbin/healthd -c
-#    class charger
-#    critical
-#    seclabel u:r:healthd:s0
-#
-
-service charge /bin/charge
+service healthd-charger /sbin/healthd -c
     class charger
-    user root
-    oneshot
+    critical
+    seclabel u:r:healthd:s0
 
-service batterysrv /bin/batterysrv
-    class core
-    user system
-    group system
-    oneshot
 
 # chown for engineermode
 chown system system /sys/module/smsg/parameters/assert_trigger

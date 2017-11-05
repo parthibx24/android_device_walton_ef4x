@@ -185,10 +185,7 @@ PRODUCT_PACKAGES += \
 
 # Charger
 PRODUCT_PACKAGES += \
-	charge \
-	charge_res_images \
-	batterysrv
-#	charger_res_images
+	charger_res_images
 
 # Set default USB interface
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
