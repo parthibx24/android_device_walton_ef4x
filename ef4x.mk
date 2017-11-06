@@ -218,7 +218,6 @@ $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk
 PROPRIETARY_FILES := \
 	hw/fm.sc8830.so \
 	hw/lights.sc8830.so \
-	hw/power.sc8830.so \
 	hw/sensors.sc8830.so \
 
 
