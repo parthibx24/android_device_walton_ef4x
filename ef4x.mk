@@ -62,16 +62,15 @@ PRODUCT_PACKAGES += \
 	audio_policy.conf \
 	codec_pga.xml \
 	tiny_hw.xml \
+	audio.a2dp.default \
+	audio.primary.sc8830 \
+	audio.r_submix.default \
+	audio.usb.default \
+	audio_policy.default \
+	audio_policy.sc8830 \
 	libaudio-resampler \
 	libatchannel_wrapper \
 	libtinyalsa
-PREBUILT_AUDIO_PACKAGES := \
-	hw/audio.a2dp.default.so \
-	hw/audio.primary.sc8830.so \
-	hw/audio.r_submix.default.so \
-	hw/audio.usb.default.so \
-	hw/audio_policy.default.so \
-	hw/audio_policy.sc8830.so \
 
 # Bluetooth
 PRODUCT_PACKAGES += \
@@ -157,11 +156,15 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory \
 	pskey_bt.txt \
-	power.default \
 	vibrator.default \
 	local_time.default \
 	keystore.default \
-	gps.default
+ 	gps.default
+
+# Power
+PRODUCT_PACKAGES += \
+	power.default \
+	power.sc8830
     
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -255,7 +258,6 @@ PRODUCT_COPY_FILES += \
 	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f))) \
 	$(foreach f,$(KEYLAYOUT_CONFIGS),$(TREE_PATH)/configs/keylayout/$(f):system/usr/keylayout/$(f)) \
 	$(foreach f,$(PROPRIETARY_FILES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
-	$(foreach f,$(PREBUILT_AUDIO_PACKAGES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
 	$(foreach f,$(PREBUILT_CAMERA_PACKAGES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
 	$(foreach f,$(PREBUILT_HWC_PACKAGES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
 	$(foreach f,$(PREBUILT_BT_PACKAGES),$(TREE_PATH)/proprietary/lib/$(f):system/lib/$(f)) \
