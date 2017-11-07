@@ -1,11 +1,9 @@
 ![ef4x](https://raw.githubusercontent.com/Parthib24/android_device_walton_ef4x/cm-13.0/.ef4x.jpg)
 
-=====================================
-
 Basic   | Spec Sheet
 -------:|:-------------------------
 CPU     | Quad-core 1.2GHz Cortex-A7
-CHIPSET | Spreadtrum SP7731C_1H10/SC7731 (sc8830)
+CHIPSET | Spreadtrum sp7731c_1h10 (sc8830)
 GPU     | Mali-400MP2
 Memory  | 1 GB
 Shipped Android Version | Android 6.0 with SPRD stock
