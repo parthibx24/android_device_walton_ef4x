@@ -1,4 +1,4 @@
-##Device configuration for Walton Primo EF4+ (ef4x)
+![ef4x](https://raw.githubusercontent.com/Parthib24/android_device_walton_ef4x/cm-13.0/.ef4x.jpg)
 
 =====================================
 
@@ -17,6 +17,8 @@ Display | 480 x 854 pixels, 5.0"
 Rear Camera  | 5.0 MP, LED flash
 Front Camera | 2.0 MP
 Release Date | July 2016
+
+##Device configuration for Walton Primo EF4+ (ef4x)
 
 Local-manifests : [ef4x.xml](https://github.com/Parthib24/android_local_manifests)
 
