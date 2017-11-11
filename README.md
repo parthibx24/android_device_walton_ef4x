@@ -18,11 +18,11 @@ Release Date | July 2016
 
 ##Device configuration for Walton Primo EF4+ (ef4x)
 
-Local-manifests : [ef4x.xml](https://github.com/Parthib24/android_local_manifests)
-
 > Status
 >> - [x] Booting in Marshmallow kernel.
 >> - [x] Buggy.
+
+Checkout [wiki](https://github.com/Parthib24/android_device_walton_ef4x/wiki) tab for more info.
 
 ### Thanks to,
  * [HadiKhoirudin](https://github.com/HadiKhoirudin)
