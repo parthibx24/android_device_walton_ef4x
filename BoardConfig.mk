@@ -91,11 +91,6 @@ TARGET_HAS_BACKLIT_KEYS := false
 # Codecs
 COMMON_GLOBAL_CFLAGS += -DBOARD_CANT_REALLOCATE_OMX_BUFFERS
 
-# Recovery
-BOARD_HAS_DOWNLOAD_MODE := true
-TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
-BOARD_SUPPRESS_EMMC_WIPE := true
-
 # Use dmalloc() for such low memory devices like us
 MALLOC_IMPL := dlmalloc
 BOARD_USES_LEGACY_MMAP := true
@@ -149,9 +144,6 @@ BLOCK_BASED_OTA := false
 # Root
 WITH_SU := true
 
-# Recovery
-TARGET_RECOVERY_FSTAB := $(TREE_PATH)/configs/misc/recovery.fstab
-
 # sepolicy
 BOARD_SEPOLICY_DIRS += $(TREE_PATH)/sepolicy
 
@@ -159,3 +151,40 @@ INSTALL_KERNEL_MODULES_ON_RAMDISK := true
 
 # Hack for building without kernel source
 $(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
+
+#Recovery
+NUM_FRAMEBUFFER_SURFACE_BUFFERS	:= 3
+BOARD_RECOVERY_NEEDS_FBIOPAN_DISPLAY := true
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+BOARD_SUPPRESS_SECURE_ERASE := true
+BOARD_HAS_NO_SELECT_BUTTON := true
+BOARD_SUPPRESS_EMMC_WIPE := true
+BOARD_HAS_DOWNLOAD_MODE := true
+TARGET_USE_CUSTOM_LUN_FILE_PATH  := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
+DEVICE_RESOLUTION := 480x854
+BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_10x18.h\"
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+TARGET_RECOVERY_FSTAB := $(TREE_PATH)/configs/misc/twrp.fstab
+
+#~
+#TWRP
+#ifeq($(RECOVERY_VARIANT),twrp)
+SP1_NAME := "internal_sd"
+SP1_BACKUP_METHOD  := files
+SP1_MOUNTABLE     := 1
+TW_INTERNAL_STORAGE_PATH   := "/data/media/0"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+TW_EXTERNAL_STORAGE_PATH   := "/external_sd"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+TW_DEFAULT_EXTERNAL_STORAGE := true
+TW_FLASH_FROM_STORAGE  := true
+TW_NO_REBOOT_BOOTLOADER := true
+#TW_HAS_DOWNLOAD_MODE  := true
+TW_NO_CPU_TEMP  := true
+TW_BRIGHTNESS_PATH               := /sys/devices/40260000.sprd_pwm_bl/backlight/sprd_backlight/brightness
+TW_INCLUDE_CRYPTO := true
+TW_THEME := portrait_mdpi
+TWHAVE_SELINUX := true
+TW_INCLUDE_FB2PNG := true
+TW_SCREEN_BLANK_ON_BOOT := true
+#endif

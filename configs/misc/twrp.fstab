@@ -1,0 +1,17 @@
+
+/boot		emmc		/dev/block/platform/sdio_emmc/by-name/boot                            flags=backup=1;display="Boot"
+/recovery	emmc		/dev/block/platform/sdio_emmc/by-name/recovery                        flags=backup=1;display="Recovery"
+/data		ext4		/dev/block/platform/sdio_emmc/by-name/userdata                       length=-16384;flags=backup=1;display="Data"
+/system		ext4		/dev/block/platform/sdio_emmc/by-name/system                          flags=backup=1;display="System"
+/cache		ext4		/dev/block/platform/sdio_emmc/by-name/cache                           flags=backup=1;display="Cache"
+/l_gdsp         emmc            /dev/block/platform/sdio_emmc/by-name/l_gdsp                          flags=backup=1;display="LTE_gdsp"
+/l_ldsp         emmc            /dev/block/platform/sdio_emmc/by-name/l_ldsp                          flags=backup=1;display="LTE_ldsp"
+/pm_sys         emmc            /dev/block/platform/sdio_emmc/by-name/pm_sys                          flags=backup=1;display="pm_sys"
+/wcnfdl         emmc            /dev/block/platform/sdio_emmc/by-name/wcnfdl                          flags=backup=1;display="wcnfdl"
+/wcnmodem       emmc            /dev/block/platform/sdio_emmc/by-name/wcnmodem                        flags=backup=1;display="wcnmodem"
+/l_modem        emmc            /dev/block/platform/sdio_emmc/by-name/l_modem                         flags=backup=1;display="LTE_modem"
+/logo           emmc            /dev/block/platform/sdio_emmc/by-name/logo                            flags=backup=1;display="logo"
+/l_warm         emmc            /dev/block/platform/sdio_emmc/by-name/l_warm                          flags=backup=1;display="LTE_warm"
+/l_runtimenv1   emmc            /dev/block/platform/sdio_emmc/by-name/l_runtimenv1                    flags=backup=1;display="LTE_runtimev1"
+/l_runtimenv2   emmc            /dev/block/platform/sdio_emmc/by-name/l_runtimenv2                    flags=backup=1;display="LTE_runtimev2"
+/external_sd	vfat		/dev/block/mmcblk1p1	/dev/block/mmcblk1	flags=display="Micro SD";storage;wipeingui;removable
