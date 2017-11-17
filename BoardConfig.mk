@@ -18,8 +18,8 @@ VENDOR_PATH := vendor/walton/ef4x
 KERNEL_PATH := kernel/sprd
 
 # JACK
-#ANDROID_COMPILE_WITH_JACK := false
-$(shell export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx3300m")
+ANDROID_COMPILE_WITH_JACK := false
+#$(shell export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx3300m")
 
 # Platform
 TARGET_ARCH := arm
@@ -35,7 +35,8 @@ TARGET_UNIFIED_DEVICE := true
 USE_CAMERA_STUB := false
 
 # RIL
-COMMON_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING
+COMMON_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING 
+COMMON_GLOBAL_CFLAGS += -DUSE_SCX31_KHEADER
 BOARD_PROVIDES_RILD := true
 BOARD_RIL_CLASS := ../../../$(TREE_PATH)/ril
 

@@ -15,7 +15,13 @@
 #
 
 LOCAL_PATH := $(my-dir)
+INSTALL_SHIT:= function installshit(){;}
 
+
+
+ifneq ($(TARGET_PREBUILT_KERNEL),)
+## PREBUILT KERNEL MODULES
+# SET KERNEL MODULE PATH
 ifeq ($(INSTALL_KERNEL_MODULES_ON_RAMDISK),true)
 KMODULE_PATH := $(TARGET_ROOT_OUT)/lib/modules
 else
@@ -69,3 +75,19 @@ LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH := $(KMODULE_PATH)
 LOCAL_SRC_FILES := lib/modules/trout_fm.ko
 include $(BUILD_PREBUILT)
+endif #
+
+## HWC
+#include $(CLEAR_VARS)
+#LOCAL_MODULE_TAGS := optional
+#LOCAL_MODULE_CLASS := ETC
+#LOCAL_MODULE 	   := pbgralloc.sc8830
+#MODULE_OUTPUT_NAME := gralloc.sc8830.so
+#LOCAL_MODULE_PATH :=  $(OUT)/system/lib/hw
+#LOCAL_SRC_FILES := lib/hw/gralloc.sc8830.so
+#LOCAL_POST_INSTALL_CMD := \
+#	$(hide) rm -rf $(LOCAL_MODULE_PATH)/$(MODULE_OUTPUT_NAME); \
+#	$(hide) mv -f $(LOCAL_MODULE_PATH)/$(LOCAL_MODULE) $(LOCAL_MODULE_PATH)/$(MODULE_OUTPUT_NAME); \
+#	echo -e "\e[0;36m"Rename: $(LOCAL_MODULE) to $(MODULE_OUTPUT_NAME);
+#include $(BUILD_PREBUILT)
+## 

@@ -192,7 +192,15 @@ PRODUCT_PACKAGES += \
 
 # Set default USB interface
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-	persist.sys.usb.config=mtp,adb
+	persist.sys.usb.config=mtp,adb \
+	persist.logd.logpersistd=logcatd \
+	ro.adb.secure=0 \
+	ro.secure=0 \
+	security.perf_harden=1 \
+	ro.allow .mock.location=0 \
+	ro.debuggable=1 \
+	persist.service.adb.enable=1 \
+	persist.service.debuggable=1 \
 
 # Device props
 PRODUCT_PROPERTY_OVERRIDES := \
