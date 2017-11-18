@@ -167,7 +167,6 @@ PRODUCT_PACKAGES += \
 	power.sc8830
 
 # Lights
-# Power
 PRODUCT_PACKAGES += \
 	lights.sc8830
     
