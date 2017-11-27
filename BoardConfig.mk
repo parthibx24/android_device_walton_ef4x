@@ -18,8 +18,8 @@ VENDOR_PATH := vendor/walton/ef4x
 KERNEL_PATH := kernel/sprd
 
 # JACK
-ANDROID_COMPILE_WITH_JACK := false
-#$(shell export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx3300m")
+
+$(shell export ANDROID_JACK_VM_ARGS="-Xmx1500m -Dfile.encoding=UTF-8 -XX:+TieredCompilation")
 
 # Platform
 TARGET_ARCH := arm
@@ -47,6 +47,36 @@ TARGET_SYSTEM_PROP += $(TREE_PATH)/system.prop
 SOC_SCX30G_V2 := true
 SOC_SCX31C := true
 BOARD_USES_SPRD_HARDWARE := true
+
+# Wifi
+WIFI_DRIVER_MODULE_PATH := /lib/modules/sprdwl.ko
+WIFI_DRIVER_FW_PATH_PARAM := /data/misc/wifi/fwpath
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+WIFI_DRIVER_MODULE_NAME := sprdwl
+BOARD_WLAN_DEVICE := qcwcn
+BOARD_WLAN_DEVICE_REV := MARLIN_15C_SS_W16.09.3
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_qcwcn
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_qcwcn
+WIFI_BAND := 802_11_ABG
+
+# Camera
+CAMERA_SUPPORT_SIZE := 5M
+#android zsl capture
+TARGET_BOARD_CAMERA_ANDROID_ZSL_MODE := false
+#back camera rotation capture
+TARGET_BOARD_BACK_CAMERA_ROTATION := false
+#front camera rotation capture
+TARGET_BOARD_FRONT_CAMERA_ROTATION := false
+#rotation capture
+TARGET_BOARD_CAMERA_ROTATION_CAPTURE := false
+TARGET_BOARD_CAMERA_HAL_VERSION := 1.0
+TARGET_BOARD_CAMERA_ANTI_FLICKER := true
+TARGET_BOARD_USE_THRID_LIB := true
+TARGET_BOARD_USE_THIRD_AF_LIB_A := true
+TARGET_BOARD_USE_ALC_AE_AWB := true
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(TREE_PATH)/configs/bluetooth
@@ -152,6 +182,8 @@ INSTALL_KERNEL_MODULES_ON_RAMDISK := true
 
 # Hack for building without kernel source
 $(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
+$(shell mkdir -p $(OUT)/obj/STATIC_LIBRARIES/libcrypto_intermediates/export_includes)
+$(shell mkdir -p $(OUT)/obj/STATIC_LIBRARIES/libbspatch_intermediates/export_include)
 
 #Recovery
 NUM_FRAMEBUFFER_SURFACE_BUFFERS	:= 3
@@ -165,7 +197,7 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH  := "/sys/class/android_usb/android0/f_mass_stor
 DEVICE_RESOLUTION := 480x854
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_10x18.h\"
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
-TARGET_RECOVERY_FSTAB := $(TREE_PATH)/configs/misc/twrp.fstab
+TARGET_RECOVERY_FSTAB := $(TREE_PATH)/configs/misc/recovery.fstab
 
 #~
 #TWRP

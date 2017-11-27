@@ -22,9 +22,6 @@ DEVICE_PACKAGE_OVERLAYS += $(TREE_PATH)/overlay
 # Inherit from AOSP product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
-# WIFI
-$(call inherit-product, vendor/sprd/wcn/scx31c/wifi/scx31c-wifi.mk)
-
 # Common Proprietary
 $(call inherit-product, vendor/sprd/proprietaries/scx31c/proprietaries-scx31c.mk)
 
@@ -186,6 +183,27 @@ PREBUILT_CAMERA_PACKAGES := \
 	libsprd_easy_hdr.so \
 	libts_face_beautify_hal.so \
 
+# Wifi
+PRODUCT_PACKAGES += \
+	wpa_supplicant_overlay.conf \
+	p2p_supplicant_overlay.conf \
+	nvram_net.txt \
+	macloader \
+	dhcpcd.conf \
+	wpa_supplicant \
+	hostapd
+WIFI_CONFIGS += \
+	wpa_supplicant.conf \
+	p2p_supplicant_overlay.conf \
+	wpa_supplicant_overlay.conf
+
+PRODUCT_COPY_FILES += \
+	$(foreach f,$(WIFI_CONFIGS),vendor/sprd/wcn/scx31c/wifi/configs/$(f):system/etc/wifi/$(f))
+
+# Graphics
+PRODUCT_PACKAGES += \
+	libmemtrack \
+
 # Compat
 PRODUCT_PACKAGES += \
     	libstlport
@@ -229,7 +247,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 $(call inherit-product, frameworks/native/build/phone-hdpi-2048-dalvik-heap.mk)
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
-##
+## this stuff dosen't work..
+# FM radio
+PRODUCT_PACKAGES += \
+	FMRadio \
+	radio.fm.default \
 PROPRIETARY_FILES := \
 	hw/fm.sc8830.so \
 	hw/sensors.sc8830.so \
