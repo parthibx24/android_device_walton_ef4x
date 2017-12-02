@@ -175,7 +175,7 @@ BLOCK_BASED_OTA := false
 # Root
 WITH_SU := true
 
-# sepolicy
+# Sepolicy
 BOARD_SEPOLICY_DIRS += $(TREE_PATH)/sepolicy
 
 INSTALL_KERNEL_MODULES_ON_RAMDISK := true

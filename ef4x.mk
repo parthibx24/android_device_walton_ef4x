@@ -204,9 +204,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	libmemtrack \
 
-# Compat
-PRODUCT_PACKAGES += \
-    	libstlport
 
 # Charger
 PRODUCT_PACKAGES += \
