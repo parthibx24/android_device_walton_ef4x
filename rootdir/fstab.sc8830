@@ -9,10 +9,12 @@
 /dev/block/platform/sdio_emmc/by-name/cache	   /cache       ext4 noatime,nosuid,nodev,nomblk_io_submit,noauto_da_alloc wait,check,formattable
 /dev/block/platform/sdio_emmc/by-name/prodnv   /productinfo ext4 noatime,nosuid,nodev,nomblk_io_submit,noauto_da_alloc wait,check
 
-# /devices/sdio_sd/mmc_host/mmc1/mmc1:*/block/mmcblk1      auto auto defaults voldmanaged=extSdCard:auto,encryptable=userdata
-# /devices/20200000.usb/usb                                auto auto defaults voldmanaged=usbdisk:auto
 /dev/block/zram0		                                 auto swap defaults zramstreams=4,notrim
 
 # Boot partitions
 /dev/block/platform/sdio_emmc/by-name/boot      /boot      emmc defaults										recoveryonly
 /dev/block/platform/sdio_emmc/by-name/recovery    /recovery  emmc defaults										recoveryonly
+
+#
+/devices/sdio_sd/mmc_host/mmc1*            auto                    auto    default     voldmanaged=extSdCard:auto,encryptable=userdata
+/devices/20200000.usb/usb1      auto         vfat defaults voldmanaged=usbdisk:auto
