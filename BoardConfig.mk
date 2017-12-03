@@ -150,8 +150,14 @@ TARGET_BOARD_CAMERA_HDR_CAPTURE := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/grandprimeve3g/bluetooth
 
 # Kernel
-TARGET_KERNEL_CONFIG := cyanogen_grandprimeve3g_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/grandprimeve3g
+# Kernel
+INSTALL_KERNEL_MODULES_ON_RAMDISK := true
+TARGET_PREBUILT_KERNEL:= device/samsung/grandprimeve3g/kernel.ef4x
+TARGET_PREBUILT_DTB   := device/samsung/grandprimeve3g/dt.img
+BOARD_KERNEL_CMDLINE  := console=ttyS1,115200n8
+BOARD_KERNEL_BASE     := 0x00000000
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_MKBOOTIMG_ARGS  := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt $(TARGET_PREBUILT_DTB)
 
 # Resolution
 TARGET_SCREEN_HEIGHT := 960
@@ -159,3 +165,11 @@ TARGET_SCREEN_WIDTH := 540
 
 # Assert
 TARGET_OTA_ASSERT_DEVICE := SM-G531H,SM-G531BT,grandprimeve3g,grandprimeve3gdtv,grandprimeve3gub,grandprimeve3gxx,grandprimeve3gdtvvj
+
+
+# Hack for building without kernel source
+$(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
+
+# SELinux
+#BOARD_SEPOLICY_DIRS += \
+#    device/samsung/j3xnlte/sepolicy

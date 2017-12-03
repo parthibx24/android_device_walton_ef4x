@@ -1,0 +1,811 @@
+import /init.board.rc
+import /init.sc8830.usb.rc
+
+on early-init
+    mount debugfs debugfs /sys/kernel/debug
+    chmod 755 /sys/kernel/debug
+
+    #set logd property
+    setprop logd.klogd false
+
+    # set core dump resource limit
+    setrlimit 4 2147483647 2147483647
+
+    # coredump file will not be generated in release version
+    write /proc/sys/kernel/core_pattern /dev/null
+
+    # radio pipe
+    mkdir /dev/rpipe 0550 radio radio
+    pipe 666 /dev/rpipe/ril.vt.0
+    pipe 666 /dev/rpipe/ril.vt.1
+    pipe 666 /dev/rpipe/ril.vt.2
+
+on init
+    mkdir /productinfo 0771 system system
+    mkdir /storage/emulated 0555 root root
+    mkdir /mnt/runtime/default/emulated 0700 root root
+    mkdir /mnt/runtime/read/emulated 0700 root root
+    mkdir /mnt/runtime/write/emulated 0700 root root
+
+    mkdir /mnt/runtime/default/emulated 0700 root root
+    mkdir /mnt/runtime/read/emulated 0700 root root
+    mkdir /mnt/runtime/write/emulated 0700 root root
+
+    export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
+    export EMULATED_STORAGE_TARGET /storage/emulated
+
+    # SPRD: add for storage manage @{
+    export EMULATED_STORAGE /storage/self/emulated
+    export PHYSICAL_STORAGE /storage/sdcard0
+    export PHYSICAL1_STORAGE /storage/sdcard1
+    export USBDISK_STORAGE /storage/usbdisk
+    symlink /storage/self/primary /mnt/sdcard
+    # @}
+
+    chown system system /sys/class/power_supply/battery/hw_switch_point
+    chown system system /sys/class/power_supply/battery/save_capacity
+
+    #SPRD: Add support for install apk to internal sdcard @{
+    mkdir /mnt/secure/internal-asec 0700 root root
+    # @}
+
+on fs
+    ubiattach 0 ubipac
+    exec /sbin/resize2fs -ef /fstab.sc8830
+    mount_all /fstab.sc8830
+    mount pstore pstore /sys/fs/pstore
+    setprop ro.crypto.fuse_sdcard true
+    symlink /system/res /res
+    symlink /system/bin /bin
+
+    #Allow others to read fb devices
+    chmod 660 /dev/graphics/fb0
+    chmod 660 /dev/fb0
+
+on post-fs
+    chown system system /productinfo
+    chmod 0771 /productinfo
+    insmod /lib/modules/autotst.ko
+    insmod /lib/modules/gator.ko
+    insmod /lib/modules/mmc_test.ko
+    insmod /lib/modules/mali.ko
+    insmod /lib/modules/sprdwl.ko
+    insmod /lib/modules/trout_fm.ko
+    insmod /lib/modules/focaltech_ts.ko
+    insmod /lib/modules/mxc400x.ko
+    insmod /system/lib/modules/autotst.ko
+    insmod /system/lib/modules/gator.ko
+    insmod /system/lib/modules/mmc_test.ko
+    insmod /system/lib/modules/mali.ko
+    insmod /system/lib/modules/sprdwl.ko
+    insmod /system/lib/modules/trout_fm.ko
+    insmod /system/lib/modules/focaltech_ts.ko
+    insmod /system/lib/modules/mxc400x.ko
+
+on post-fs-data
+    copy /system/etc/bluetooth/bt_stack.conf /data/misc/bluedroid/bt_stack.conf
+    chown bluetooth net_bt_stack /data/misc/bluedroid/bt_stack.conf
+    chmod 0640 /data/misc/bluedroid/bt_stack.conf
+    mkdir /data/local/mcue 0777 media system
+    mkdir /data/anr 0771 system system
+    mkdir /data/tombstones 0771 system system
+    mkdir /data/local/englog 0777
+    mkdir /data/sprdinfo 0771 system system
+    chown system system /data/apr.conf
+    mkdir /data/slog 0777
+    mkdir /data/ylog 0777
+    mkdir /data/mlog 0777
+    mkdir /data/misc/hprofs 0777
+
+    # Set indication (checked by vold) that we have finished this action
+    setprop vold.post_fs_data_done 1
+
+    # to force to start sdcard
+    class_start late_start
+
+on early-boot
+    # set RLIMIT_MEMLOCK to 64MB
+    setrlimit 8 67108864 67108864
+
+    # Support audio loopback test
+    mkdir /dev/pipe 0755 system system
+    pipe 666 /dev/pipe/mmi.audio.ctrl
+
+    # Support audio parameter stored
+    mkdir /data/local/media 0777 media system
+    chown system root /proc/cppmic/stop
+    chown system root /proc/cppmic/start
+    chown system root /proc/cppmic/modem
+    chown system root /proc/cppmic/mem
+    chown system root /proc/cppmic/status
+    chown system root /proc/cppmic/wdtirq
+    chmod 660 /proc/cptl/wdtirq
+    chmod 660 /proc/cptl/stop
+    chmod 660 /proc/cptl/start
+    chmod 660 /proc/cptl/modem
+    chmod 660 /proc/cptl/tgdsp
+    chmod 660 /proc/cptl/ldsp
+    chmod 660 /proc/cptl/warm
+    chmod 660 /proc/cptl/fixnv
+    chmod 660 /proc/cptl/runnv
+    chmod 660 /proc/cptl/cpcmdline
+    chown system root /proc/cptl/wdtirq
+    chown system root /proc/cptl/stop
+    chown system root /proc/cptl/start
+    chown system root /proc/cptl/modem
+    chown system root /proc/cptl/ldsp
+    chown system root /proc/cptl/tgdsp
+    chown system root /proc/cptl/warm
+    chown system root /proc/cptl/fixnv
+    chown system root /proc/cptl/runnv
+    chown system root /proc/cptl/cpcmdline
+
+    chmod 660 /proc/cpt/wdtirq
+    chmod 660 /proc/cpt/stop
+    chmod 660 /proc/cpt/start
+    chmod 660 /proc/cpt/modem
+    chmod 660 /proc/cpt/dsp
+
+    chown system root /proc/cpt/wdtirq
+    chown system root /proc/cpt/stop
+    chown system root /proc/cpt/start
+    chown system root /proc/cpt/modem
+    chown system root /proc/cpt/dsp
+
+    chown system root /sys/class/rtcc/rtcc_trigger
+
+    chmod 660 /proc/cpw/wdtirq
+    chmod 660 /proc/cpw/stop
+    chmod 660 /proc/cpw/start
+    chmod 660 /proc/cpw/modem
+    chmod 660 /proc/cpw/dsp
+
+    chown system root /proc/cpw/wdtirq
+    chown system root /proc/cpw/stop
+    chown system root /proc/cpw/start
+    chown system root /proc/cpw/modem
+    chown system root /proc/cpw/dsp
+
+    chmod 660 /proc/cpwcn/wdtirq
+    chmod 660 /proc/cpwcn/stop
+    chmod 660 /proc/cpwcn/start
+    chmod 660 /proc/cpwcn/modem
+    chmod 660 /proc/cpwcn/dsp
+
+    chown system root /proc/cpwcn/wdtirq
+    chown system root /proc/cpwcn/stop
+    chown system root /proc/cpwcn/start
+    chown system root /proc/cpwcn/modem
+    chown system root /proc/cpwcn/dsp
+
+    chown system root /proc/mdbg
+    chown system root /proc/mdbg/assert
+    chown system root /proc/mdbg/wdtirq
+    chown system root /proc/mdbg/loopcheck
+    chown system root /proc/mdbg/at_cmd
+
+    chmod 766 /proc/mdbg
+    chmod 766 /proc/mdbg/assert
+    chmod 766 /proc/mdbg/wdtirq
+    chmod 766 /proc/mdbg/loopcheck
+    chmod 766 /proc/mdbg/at_cmd
+
+
+on boot
+    chown system system /sys/module/mali/parameters/gpu_cur_freq
+    chown system system /sys/module/mali/parameters/gpufreq_max_limit
+    chown system system /sys/module/mali/parameters/gpufreq_min_limit
+    chown system system /sys/module/mali/parameters/gpufreq_table
+    chown system system /sys/class/backlight/sprd_backlight/brightness
+    chown system system /sys/class/leds/red_bl/high_time
+    chown system system /sys/class/leds/red_bl/low_time
+    chown system system /sys/class/leds/red_bl/rising_time
+    chown system system /sys/class/leds/red_bl/falling_time
+    chown system system /sys/class/leds/red_bl/on_off
+
+    chown system system /sys/class/leds/green_bl/high_time
+    chown system system /sys/class/leds/green_bl/low_time
+    chown system system /sys/class/leds/green_bl/rising_time
+    chown system system /sys/class/leds/green_bl/falling_time
+    chown system system /sys/class/leds/green_bl/on_off
+
+    chown system system /sys/class/leds/blue_bl/high_time
+    chown system system /sys/class/leds/blue_bl/low_time
+    chown system system /sys/class/leds/blue_bl/rising_time
+    chown system system /sys/class/leds/blue_bl/falling_time
+    chown system system /sys/class/leds/blue_bl/on_off
+
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed
+    chown system system /sys/devices/system/cpu/cpufreq/sprdemand/cpu_hotplug_disable
+    chown system system /sys/devices/system/cpu/cpufreq/sprdemand/boostpulse
+    chown system system /sys/devices/system/cpu/cpufreq/sprdemand/boost
+    chown system system /sys/devices/platform/scxx30-dmcfreq.0/devfreq/scxx30-dmcfreq.0/ondemand/set_freq
+    chown system system /sys/devices/platform/scxx30-dmcfreq.0/devfreq/scxx30-dmcfreq.0/ondemand/set_enable
+    chown system system /sys/devices/platform/scxx30-dmcfreq.0/devfreq/scxx30-dmcfreq.0/ondemand/set_enable
+    chown system system /sys/devices/platform/scxx30-dmcfreq.0/devfreq/scxx30-dmcfreq.0/ondemand/set_upthreshold
+    chown system system /sys/devices/platform/scxx30-dmcfreq.0/devfreq/scxx30-dmcfreq.0/ondemand/set_downdifferential
+    chown media system /sys/devices/platform/scxx30-dmcfreq.0/devfreq/scxx30-dmcfreq.0/ondemand/set_freq
+    chown media system /sys/devices/platform/scxx30-dmcfreq.0/devfreq/scxx30-dmcfreq.0/ondemand/set_request
+    chown system system /sys/class/thermal/cooling_device0/cur_ctrl_param
+    chown system system /sys/class/power_supply/battery/chg_cool_state
+    chown system system /sys/class/power_supply/battery/adjust_cur_min
+    chown system system /sys/class/power_supply/battery/adjust_cur_max
+    chown system system /sys/class/power_supply/battery/stop_charge
+    chown system system /sys/class/backlight/sprd_backlight/max_brightness
+    chown system system /dev/iq_mem
+    chown system system /sys/class/graphics/fb0/dynamic_pclk
+    chown system system /sys/class/graphics/fb0/dynamic_mipi_clk
+    chown system system /dev/sprd_bm
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+    chmod 0660 /sys/devices/system/cpu/cpufreq/sprdemand/cpu_hotplug_disable
+    chmod 0660 /sys/devices/system/cpu/cpufreq/sprdemand/boostpulse
+    chmod 0660 /sys/devices/system/cpu/cpufreq/sprdemand/boost
+    chmod 0660 /sys/devices/platform/scxx30-dmcfreq.0/devfreq/scxx30-dmcfreq.0/ondemand/set_freq
+    chmod 0660 /sys/devices/platform/scxx30-dmcfreq.0/devfreq/scxx30-dmcfreq.0/ondemand/set_enable
+    chmod 0440 /dev/iq_mem
+    chmod 0660 /dev/sprd_bm
+    chmod 0660 /sys/class/graphics/fb0/dynamic_pclk
+    chmod 0660 /sys/class/graphics/fb0/dynamic_mipi_clk
+    #if dirty pages more than 4M that will tigger writeback flush
+    write /proc/sys/vm/dirty_background_bytes 4194304
+# MOD {
+    chmod 660 /proc/bluetooth/sleep/proto
+    chmod 660 /sys/class/rfkill/rfkill0/state
+    chmod 660 /sys/class/rfkill/rfkill0/type
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+    chown bluetooth system /proc/bluetooth/sleep/proto
+    mkdir /data/misc/wifi 0770 wifi wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
+    mkdir /data/system 0770 system system
+    mkdir /etc/wifi 0770 wifi wifi
+    write /data/misc/wifi/fwpath sta_mode
+    chmod 660 /data/misc/wifi/fwpath
+    chown wifi wifi /data/misc/wifi/fwpath
+    rmdir /data/system/wpa_supplicant
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    chown dhcp dhcp /data/misc/dhcp
+    setprop wifi.interface wlan0
+    mkdir /data/misc/dhcp6c 0770 dhcp dhcp
+    chown dhcp system /data/misc/dhcp6c
+
+    chown bluetooth shell /productinfo/connectivity_configure.ini
+    chown bluetooth bluetooth /system/etc/connectivity_configure.ini
+    chmod 666 /productinfo/connectivity_configure.ini
+    chmod 666 /system/etc/connectivity_configure.ini
+
+    chown wifi shell /productinfo/connectivity_calibration.ini
+    chown wifi wifi /system/etc/connectivity_calibration.ini
+    chmod 660 /productinfo/connectivity_calibration.ini
+    chmod 660 /system/etc/connectivity_calibration.ini
+
+    mkdir /data/cg/ 0777 system system
+    mkdir /data/cg/online 0777 system system
+    mkdir /data/cg/supl 0777 system system
+    chmod 660 /dev/ttyV1
+    chmod 660 /dev/ttyV0
+    chmod 777 /system/etc/GPSenseEngine.xml
+    chmod 777 /system/etc/HiMap.db
+    chmod 777 /system/bin/GPSenseEngine
+    setprop gps.port ttyV1
+
+# Create cgroup mount point for blkio 
+    mkdir /sys/fs/cgroup/blkio 0750 root system
+    mount cgroup none /sys/fs/cgroup/blkio blkio
+    write /sys/fs/cgroup/blkio/blkio.weight 300 
+    chown root system /sys/fs/cgroup/blkio/cgroup.procs
+    chmod 0660 /sys/fs/cgroup/blkio/cgroup.procs
+    mkdir /sys/fs/cgroup/blkio/high 0750 root system
+    write /sys/fs/cgroup/blkio/high/blkio.weight 700 
+    chown root system /sys/fs/cgroup/blkio/high/cgroup.procs
+    chmod 0660 /sys/fs/cgroup/blkio/high/cgroup.procs
+
+#mxc400x gsensor
+    mkdir /data/misc/sensor 0777 system system
+    chmod 0666 /dev/mxc400x
+
+# }
+
+#on charger
+#    class_start core
+#    start console
+#    start slog
+
+service poweroffalarm /system/bin/poweroff_alarm
+    disabled
+    oneshot
+
+on alarm
+    class_start core
+    start drm
+    start media
+    start console
+    start slog
+    start poweroffalarm
+
+on property:ro.board_ram_size=min
+    setprop zram.disksize 64
+
+on property:ro.board_ram_size=low
+    setprop zram.disksize 200
+    write /proc/sys/vm/extra_free_kbytes 1024
+    write /sys/module/zram/parameters/total_mem_usage_percent  35
+
+on property:ro.board_ram_size=mid
+    setprop zram.disksize 200
+    write /proc/sys/vm/extra_free_kbytes 2048
+
+on property:ro.board_ram_size=high
+    setprop zram.disksize 600
+    write /proc/sys/vm/extra_free_kbytes 4096
+
+on property:ro.config.zram.support=true
+    setprop sys.vm.swappiness 30
+    write /proc/sys/vm/page-cluster  0
+    start zram
+
+service zram /system/xbin/zram.sh
+        disabled
+        oneshot
+
+on property:ro.debuggable=1
+    write /sys/kernel/debug/fatal_dump/enable 1
+    mkdir /data/corefile
+    chmod 777 /data/corefile
+    mkdir /data/slog 0777
+    mkdir /data/ylog 0777
+    mkdir /data/misc/hprofs 0777
+    chmod 777 /sys/kernel/debug/sc2713-regulator/vddarm/voltage
+    chmod 777 /sys/kernel/debug/sc2713-regulator/vddcore/voltage
+    chmod 777 /sys/kernel/debug/sprd-regulator/vddarm/voltage
+    chmod 777 /sys/kernel/debug/sprd-regulator/vddcore/voltage
+    chmod 777 /sys/kernel/debug
+    write /proc/sys/kernel/core_pattern /data/corefile/core-%e-%p
+    write /proc/sys/fs/suid_dumpable 1
+    write /sys/module/smsg/parameters/debug_enable 1
+    #start ylog
+    setprop persist.sys.slog.enabled 1
+    # CTS for slog, enable the slog daemon in debug version anyway.
+
+on property:ro.modem.t.count=1
+    write /proc/sim/0 t
+
+on property:ro.modem.t.count=2
+    write /proc/sim/0 t
+    write /proc/sim/1 t
+
+on property:ro.modem.t.count=3
+    write /proc/sim/0 t
+    write /proc/sim/1 t
+    write /proc/sim/2 t
+
+on property:ro.modem.w.count=1
+    write /proc/sim/0 w
+
+on property:ro.modem.w.count=2
+    write /proc/sim/0 w
+    write /proc/sim/1 w
+
+on property:ro.modem.w.count=3
+    write /proc/sim/0 w
+    write /proc/sim/1 w
+    write /proc/sim/2 w
+
+on property:ro.config.ksm.support=true
+    write /sys/kernel/mm/ksm/pages_to_scan 100
+    write /sys/kernel/mm/ksm/sleep_millisecs 500
+    write /sys/kernel/mm/ksm/run   1
+
+# SPRD: add for low-memory @{
+# set LMK watermark[C1] as {28M,40M,80M,100M,110M,140M}
+on property:ro.product.ram=low
+	write /sys/module/lowmemorykiller/parameters/adj 0,1,5,6,8,11
+	write /sys/module/lowmemorykiller/parameters/minfree 7168,10240,20480,25600,28160,35840
+	setprop sys.lmk.adj "0,1,5,6,8,11"
+	setprop sys.lmk.minfree "7168,10240,20480,25600,28160,35840"
+
+# set LMK watermark as {45M,54M,63M,72M,80M,92MB}
+# set RTCC minfree watermarks as {224M,192M,160M,128M,96M}
+on property:ro.product.ram=high
+	write /sys/module/lowmemorykiller/parameters/adj 0,1,5,6,8,11
+	write /sys/module/lowmemorykiller/parameters/minfree 7168,10240,20480,25600,28160,35840
+	setprop sys.lmk.adj "0,1,5,6,8,11"
+	setprop sys.lmk.minfree "7168,10240,20480,25600,28160,35840"
+	write /sys/module/rtcc/parameters/minfree 57344,49152,40960,32768,24576
+# @}
+
+service lmfs /system/bin/lmfs
+    class main
+    socket lmfs stream 0777 root root
+    user root
+
+# SPRD: add for theme setting @{
+on property:universe_ui_support=true
+    start theme_init
+
+service theme_init /system/bin/theme_init.sh
+    disabled
+    oneshot
+# @}
+
+# add for otg usbdisk
+service fuse_usbdisk /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/usbdisk /storage/usbdisk
+    class late_start
+    disabled
+# @}
+
+#modem_control
+service modem_control  /system/bin/modem_control
+    class core
+    user system
+    group system radio shell
+    oneshot
+
+service modemd /system/bin/modemd
+    class core
+    user system
+    group system radio shell
+    oneshot
+
+service wcnd /system/bin/wcnd
+    class core
+    #   we will start as root and wcnd will switch to user system
+    #	user system
+    group system shell wifi inet net_bt_stack
+    oneshot
+
+service wcnd_eng /system/bin/wcnd -G
+    class core
+    group system shell wifi inet net_bt_stack
+    disabled
+    oneshot
+
+service phoneserver /system/bin/phoneserver
+    class core
+    user root
+    group radio system shell dhcp
+    disabled
+    oneshot
+
+#wcdma rild service
+service wril-daemon /system/bin/logwrapper /system/bin/rild_sp -l /system/lib/libreference-ril_sp.so -m w -n 0
+    class core
+    socket wrild stream 660 root radio
+    socket wrild-debug stream 660 radio system
+    user root
+    group radio cache inet misc audio sdcard_rw log shell
+
+service wril-daemon1 /system/bin/logwrapper /system/bin/rild_sp -l /system/lib/libreference-ril_sp.so -m w -n 1
+    class core
+    socket wrild1 stream 660 root radio
+    socket wrild-debug1 stream 660 radio system
+    user root
+    group radio cache inet misc audio sdcard_rw log shell
+
+service wril-daemon2 /system/bin/logwrapper /system/bin/rild_sp -l /system/lib/libreference-ril_sp.so -m w -n 2
+    class core
+    socket wrild2 stream 660 root radio
+    socket wrild-debug2 stream 660 radio system
+    disabled
+    user root
+    group radio cache inet misc audio sdcard_rw log shell
+
+#cp_diskserver
+service cp_diskserver_td /system/bin/cp_diskserver t 0
+    class core
+    user system
+    disabled
+    group system radio shell
+    oneshot
+
+service cp_diskserver_w /system/bin/cp_diskserver w 0
+    class core
+    user system
+    group system radio shell
+    disabled
+    oneshot
+
+service cp_diskserver_l /system/bin/cp_diskserver l 0
+    class core
+    user system
+    group system radio shell
+    disabled
+    oneshot
+
+service cp_diskserver_tl /system/bin/cp_diskserver tl 0
+    class core
+    user system
+    group system radio shell
+    disabled
+    oneshot
+
+service cp_diskserver_lf /system/bin/cp_diskserver lf 0
+    class core
+    user system
+    group system radio shell
+    disabled
+    oneshot
+
+service at_distributor /system/bin/at_distributor
+    class main
+    user root
+    group radio misc log
+
+service slog /system/bin/slog -t
+    class main
+    user root
+    disabled
+
+service ylog /system/bin/ylog
+    class main
+    user root
+	disabled
+
+service apr /system/bin/collect_apr
+    class main
+    user root
+    disabled
+    oneshot
+
+service refnotify_td /system/bin/refnotify -t 0
+    class main
+    disabled
+    user system
+    group system radio shell
+    oneshot
+
+service refnotify_w /system/bin/refnotify -t 1
+    class main
+    disabled
+    user system
+    group system radio shell
+    oneshot
+
+service refnotify_l /system/bin/refnotify -t 2
+    class main
+    disabled
+    user system
+    group system radio shell
+    oneshot
+
+# For CTS of slog ->
+# This action is to make sure that the shell user
+# can also enable the slog daemon
+
+# convert the debug to system
+on property:debug.slog.enabled=1
+    setprop persist.sys.slog.enabled 1
+
+# convert the debug to system
+on property:debug.slog.enabled=0
+    setprop persist.sys.slog.enabled 0
+
+# Start the daemon
+on property:persist.sys.slog.enabled=1
+    mkdir /data/local/tmp/slog 0777
+    start slog
+    start sprd_res_monitor
+
+# Stop the daemon
+on property:persist.sys.slog.enabled=0
+    stop slog
+    stop sprd_res_monitor
+    rm /data/local/tmp/sprd_monitor.conf
+
+# Start the ylog daemon
+on property:persist.ylog.enabled=1
+	start ylog
+
+# Stop the ylog daemon
+on property:persist.ylog.enabled=0
+	stop ylog
+
+# For CTS of slog <-
+
+# Start the daemon
+on property:persist.sys.apr.enabled=1
+    start apr
+
+# Stop the daemon
+on property:persist.sys.apr.enabled=0
+    stop apr
+
+on property:persist.modem.w.enable=1
+    symlink /dev/spipe_w1 /dev/vbpipe1
+    symlink /dev/spipe_w2 /dev/vbpipe2
+    symlink /dev/spipe_w3 /dev/vbpipe3
+    symlink /dev/spipe_w6 /dev/vbpipe6
+    start refnotify_w
+    start cp_diskserver_w
+
+on property:persist.modem.t.enable=1
+    start refnotify_td
+    start cp_diskserver_td
+
+on property:persist.modem.l.enable=1
+    start refnotify_l
+    start cp_diskserver_l
+
+on property:persist.modem.lf.enable=1
+    start refnotify_l
+
+#create symlink
+service smd_symlink /system/bin/ext_symlink.sh -u
+    user root
+    disabled
+    oneshot
+
+#data on
+service data_on /system/bin/data_on.sh
+    user root
+    disabled
+    oneshot
+
+#data off
+service data_off /system/bin/data_off.sh
+    user root
+    disabled
+    oneshot
+
+#kill td/w/lte/tl/lf app
+service kill_phone /system/bin/ext_kill.sh
+    user root
+    disabled
+    oneshot
+
+#change owner
+service chown_service /system/bin/ext_chown.sh  -c
+    class main
+    user root
+    oneshot
+
+#set mac addr
+service set_mac /system/bin/ext_chown.sh  -e
+    user root
+    disabled
+    oneshot
+
+service  inputfreq  /system/bin/inputfreq.sh
+    user root
+    disabled
+    oneshot
+
+service  recoveryfreq  /system/bin/recoveryfreq.sh
+    user root
+    disabled
+    oneshot
+
+    chmod 0666 /proc/pin_switch/iis0_sys_sel/cp0_iis0
+    chmod 0666 /proc/pin_switch/iis0_sys_sel/cp1_iis0
+    chmod 0666 /proc/pin_switch/iis0_sys_sel/cp2_iis0
+    chmod 0666 /proc/pin_switch/iis0_sys_sel/ap_iis0
+    chmod 0666 /proc/pin_switch/bt_iis_sys_sel/cp0_iis0
+    chmod 0666 /proc/pin_switch/bt_iis_sys_sel/cp1_iis0
+    chmod 0666 /proc/pin_switch/bt_iis_sys_sel/cp2_iis0
+    chmod 0666 /proc/pin_switch/bt_iis_sys_sel/ap_iis0
+
+# SRT server
+service srtd /system/xbin/srtd
+    class main
+    socket srtserver stream 0777 system system
+    user root
+    group root
+    oneshot
+
+service autotest /system/bin/autotest
+    class main
+    disabled
+    user root
+    oneshot
+# Set watchdog timer to 30 seconds and pet it every 10 seconds to get a 20 second margin
+#service watchdogd /sbin/watchdogd 10 20
+#    class core
+#    seclabel u:r:watchdogd:s0
+
+#open bugreport
+service bugreport /system/bin/dumpstate -d -p -B \
+        -o /data/data/com.android.shell/files/bugreports/bugreport
+    class late_start
+    disabled
+    oneshot
+
+service engpcclientt /system/bin/engpc -p t -a /dev/ttyGS0 -d /dev/ttyGS1 -l /dev/ttyGS4
+    class core
+    user root
+    group system radio shell
+    disabled
+    oneshot
+
+service engpcclientlte /system/bin/engpc -p l -a /dev/ttyGS5 -d /dev/ttyGS6 -l /dev/ttyGS7
+    class core
+    user root
+    group system radio shell
+    disabled
+    oneshot
+
+service engpcclientwcn /system/bin/engpc -p wcn -a /dev/ttyGS2 -d /dev/ttyGS3
+    class core
+    user root
+    group system radio shell
+    disabled
+    oneshot
+
+service engpcclientw /system/bin/engpc -p w -a /dev/ttyGS0 -d /dev/ttyGS1 -l /dev/ttyGS4
+    class core
+    user root
+    group system radio shell
+    disabled
+    oneshot
+
+service engpcclienttl /system/bin/engpc -p tl -a /dev/ttyGS5 -d /dev/ttyGS6
+    class core
+    user root
+    group system radio shell
+    disabled
+    oneshot
+
+service engpcclientlf /system/bin/engpc -p lf -a /dev/ttyGS5 -d /dev/ttyGS6 -l /dev/ttyGS7
+    class core
+    user root
+    group system radio shell
+    disabled
+    oneshot
+
+# MOD {
+service GPSenseEngine /system/bin/GPSenseEngine
+     class main
+     user root
+     group root
+     disabled
+
+service hfag /system/bin/sdptool add --channel=10 HFAG
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service hsag /system/bin/sdptool add --channel=11 HSAG
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service opush /system/bin/sdptool add --channel=12 OPUSH
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service pbap /system/bin/sdptool add --channel=19 PBAP
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service btld  /system/bin/btld -lpm 0 -hb 3000000
+    user root
+    group bluetooth net_bt_admin
+    disabled
+    oneshot
+
+service engpcclientw /system/bin/engpc -p w -a /dev/ttyGS0 -d /dev/ttyGS1
+    class core
+    user root
+    group system radio shell
+    disabled
+    oneshot
+
+service engpcclientwcn /system/bin/engpc -p wcn -a /dev/ttyGS2 -d /dev/ttyGS3
+    class core
+    user root
+    group system radio shell
+    disabled
+    oneshot
+
+service slogmodem /system/bin/slogmodem
+    class main
+    user shell
+    group system sdcard_rw media_rw
+# }MOD
