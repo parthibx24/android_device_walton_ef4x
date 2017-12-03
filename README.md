@@ -1,31 +1,23 @@
-##Device configuration for Samsung Galaxy Grand Prime VE SPRD SM-G531H (grandprimeve3g)
-
-=====================================
+![ef4x](https://raw.githubusercontent.com/Parthib24/android_device_walton_ef4x/cm-13.0/.ef4x.jpg)
 
 Basic   | Spec Sheet
 -------:|:-------------------------
-CPU     | Quad-core 1,3GHz Cortex-A7
-CHIPSET | Spreadtrum SC7730SE sc8830
+CPU     | Quad-core 1.2GHz Cortex-A7     
+CHIPSET | Spreadtrum SP7731C_1h10 (sc8830)  
 GPU     | Mali-400MP2
 Memory  | 1 GB
-Shipped Android Version | Android 5.1.1 with TouchWiz Essence
+Shipped Android Version | Android 6.0 with SPRD stock   
+Kernel Version | 3.10.65 Marshmallow
 Storage | 8 GB
-MicroSD | Up to 64 GB
-Battery | 2600 mAh Li-Ion (removable)
-Dimensions | 144.8 x 72.1 x 8.6 mm
-Display | 540 x 960 pixels, 5.0"
-Rear Camera  | 8.0 MP, LED flash
-Front Camera | 5.0 MP
-Release Date | June 2015
+MicroSD | Up to 32 GB
+Battery | 2300 mAh Li-Ion (removable)
+Display | 480 x 854 pixels, 5.0"
+Rear Camera  | 5.0 MP, LED flash
+Front Camera | 2.0 MP
+Release Date | July 2016
 
-##Building instructions
+##Device configuration for Walton Primo EF4+ (ef4x)
 
-### What do you need?
-* 50GB left of your hard disk space
-* Basic skills / knowledge of Linux
+> Status
+>> - [x] :|
 
-### Building steps
-* 1. Sync Android source
-* 2. Copy this file ([grandprimeve3g.xml](https://github.com/koquantam/android_local_manifests/blob/cm-14.1-grandprimeve3g/grandprimeve3g.xml)) to `.repo/local_manifests` (if that folder doesn't exist then "mkdir" it)
-* 3. `repo sync` again
-* 5. After sync, type `. build/envsetup.sh && brunch grandprimeve3g`

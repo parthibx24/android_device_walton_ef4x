@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOCAL_PATH := device/samsung/grandprimeve3g
+LOCAL_PATH := device/walton/ef4x
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
@@ -50,8 +50,8 @@ PRODUCT_COPY_FILES += \
 	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f)))
 
 # Set those variables here to overwrite the inherited values.
-PRODUCT_NAME := full_grandprimeve3g
-PRODUCT_DEVICE := grandprimeve3g
-PRODUCT_BRAND := samsung
-PRODUCT_MANUFACTURER := samsung
-PRODUCT_MODEL := SM-G531H
+PRODUCT_NAME := full_ef4x
+PRODUCT_DEVICE := ef4x
+PRODUCT_BRAND := WALTON
+PRODUCT_MANUFACTURER := WALTON
+PRODUCT_MODEL := Primo-EF4+

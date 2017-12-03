@@ -19,7 +19,7 @@
 -include vendor/samsung/grandprimeve3g/BoardConfigVendor.mk
 
 # Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := SC7730SE
+TARGET_BOOTLOADER_BOARD_NAME := SP7731C_1H10
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
@@ -147,13 +147,13 @@ TARGET_BOARD_CAMERA_HDR_CAPTURE := true
 ################################################################################
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/grandprimeve3g/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/walton/ef4x/bluetooth
 
 # Kernel
 # Kernel
 INSTALL_KERNEL_MODULES_ON_RAMDISK := true
-TARGET_PREBUILT_KERNEL:= device/samsung/grandprimeve3g/kernel.ef4x
-TARGET_PREBUILT_DTB   := device/samsung/grandprimeve3g/dt.img
+TARGET_PREBUILT_KERNEL:= device/walton/ef4x/kernel.ef4x
+TARGET_PREBUILT_DTB   := device/walton/ef4x/dt.img
 BOARD_KERNEL_CMDLINE  := console=ttyS1,115200n8
 BOARD_KERNEL_BASE     := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
@@ -164,7 +164,7 @@ TARGET_SCREEN_HEIGHT := 960
 TARGET_SCREEN_WIDTH := 540
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := SM-G531H,SM-G531BT,grandprimeve3g,grandprimeve3gdtv,grandprimeve3gub,grandprimeve3gxx,grandprimeve3gdtvvj
+TARGET_OTA_ASSERT_DEVICE := Walton,ef4x,sp7731c_1h10
 
 
 # Hack for building without kernel source
@@ -172,4 +172,4 @@ $(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
 
 # SELinux
 #BOARD_SEPOLICY_DIRS += \
-#    device/samsung/j3xnlte/sepolicy
+#    device/walton/ef4x/sepolicy
