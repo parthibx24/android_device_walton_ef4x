@@ -19,5 +19,9 @@ Release Date | July 2016
 ##Device configuration for Walton Primo EF4+ (ef4x)
 
 > Status
->> - [x] :|
+>> - [x] Jummping on boot logo...but recoverys are working.
+
+> Patches
+- [x] [Revert back to policy version 29](https://github.com/Parthib24/android_system_sepolicy/commit/21ba2150f9871d2ece1a84f508d596f5de5d48a4)
+
 
