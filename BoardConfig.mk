@@ -160,8 +160,8 @@ BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS  := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt $(TARGET_PREBUILT_DTB)
 
 # Resolution
-TARGET_SCREEN_HEIGHT := 960
-TARGET_SCREEN_WIDTH := 540
+TARGET_SCREEN_HEIGHT := 854
+TARGET_SCREEN_WIDTH := 480
 
 # Assert
 TARGET_OTA_ASSERT_DEVICE := Walton,ef4x,sp7731c_1h10
@@ -170,6 +170,12 @@ TARGET_OTA_ASSERT_DEVICE := Walton,ef4x,sp7731c_1h10
 # Hack for building without kernel source
 $(shell mkdir -p $(OUT)/obj/KERNEL_OBJ/usr)
 
+ifneq ($(TWRES_PATH),)
+PRODUCT_COPY_FILES += device/walton/ef4x/twrp.fstab:recovery/root/etc/twrp.fstab
+
+endif
+TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
+TW_FORCE_GGL_PIXEL_FORMAT_RGBX_8888 := true
 # SELinux
-#BOARD_SEPOLICY_DIRS += \
-#    device/walton/ef4x/sepolicy
+BOARD_SEPOLICY_DIRS += \
+    device/walton/ef4x/sepolicy

@@ -49,6 +49,29 @@ PERMISSIONS_XML_FILES := \
 PRODUCT_COPY_FILES += \
 	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f)))
 
+# Rootdir
+TARGET_PROVIDES_INIT_RC := true
+ROOTFILES := \
+	fstab.sc8830 \
+	fstab.sp7731c_1h10 \
+	init.board.rc \
+	init.rc \
+	init.sc8830.rc \
+	init.sc8830.usb.rc \
+	ueventd.sc8830.rc \
+	ueventd.sp7731c_1h10.rc
+PRODUCT_PACKAGES += \
+	autotst.ko \
+	gator.ko \
+	mali.ko \
+	mmc_test.ko \
+	sprdwl.ko \
+	trout_fm.ko
+
+# Copy product packages
+PRODUCT_COPY_FILES += \
+	$(foreach f,$(ROOTFILES),$(LOCAL_PATH)/rootdir/$(f):root/$(f))
+
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_ef4x
 PRODUCT_DEVICE := ef4x
