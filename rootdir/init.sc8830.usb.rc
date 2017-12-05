@@ -2,16 +2,11 @@ on post-fs-data
     chown system system /sys/class/android_usb/android0/f_mass_storage/lun1/file
     chmod 0660 /sys/class/android_usb/android0/f_mass_storage/lun1/file
 
-#1) ro.display.product.manufacturer
-#2) ro.display.product.product
-#3) ro.display.usb.vid
-#-->was set by <PROJECT>.spec
-
 on boot
-    write /sys/class/android_usb/android0/iManufacturer ${ro.display.product.manufacturer}
-    write /sys/class/android_usb/android0/iProduct ${ro.display.product.product}
+    #write /sys/class/android_usb/android0/iManufacturer Spreadtrum
+    #write /sys/class/android_usb/android0/iProduct Spreadtrum Phone
     write /sys/class/android_usb/android0/iSerial $ro.serialno
-    write /sys/class/android_usb/android0/f_rndis/manufacturer ${ro.display.product.manufacturer}
+    write /sys/class/android_usb/android0/f_rndis/manufacturer Spreadtrum
     write /sys/class/android_usb/android0/f_rndis/vendorID 8
     write /sys/class/android_usb/android0/f_rndis/wceis 1
     # move this to init.storage.rc
@@ -29,7 +24,7 @@ on property:ro.bootmode=iq
 
 on property:sys.usb.config=mtp
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 4001
     write /sys/class/android_usb/android0/functions $sys.usb.config
     write /sys/class/android_usb/android0/enable 1
@@ -37,7 +32,7 @@ on property:sys.usb.config=mtp
 
 on property:sys.usb.config=mtp,adb
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 4002
     write /sys/class/android_usb/android0/f_gser/port_count ${sys.usb.gser.count}
     write /sys/class/android_usb/android0/functions ${sys.usb.config}${persist.sys.modem.diag}
@@ -47,7 +42,7 @@ on property:sys.usb.config=mtp,adb
 
 on property:sys.usb.config=ptp
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 4011
     write /sys/class/android_usb/android0/functions $sys.usb.config
     write /sys/class/android_usb/android0/enable 1
@@ -55,7 +50,7 @@ on property:sys.usb.config=ptp
 
 on property:sys.usb.config=ptp,adb
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 4012
     write /sys/class/android_usb/android0/f_gser/port_count ${sys.usb.gser.count}
     write /sys/class/android_usb/android0/functions ${sys.usb.config}${persist.sys.modem.diag}
@@ -65,7 +60,7 @@ on property:sys.usb.config=ptp,adb
 
 on property:sys.usb.config=rndis
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 5d20
     write /sys/class/android_usb/android0/functions $sys.usb.config
     write /sys/class/android_usb/android0/bDeviceClass 224
@@ -74,7 +69,7 @@ on property:sys.usb.config=rndis
 
 on property:sys.usb.config=rndis,adb
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 5d21
     write /sys/class/android_usb/android0/f_gser/port_count ${sys.usb.gser.count}
     write /sys/class/android_usb/android0/functions ${sys.usb.config}${persist.sys.modem.diag}
@@ -85,7 +80,7 @@ on property:sys.usb.config=rndis,adb
 
 on property:sys.usb.config=cdrom
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 5d03
     write /sys/class/android_usb/android0/functions mass_storage
     write /sys/class/android_usb/android0/f_mass_storage/lun/file '\0'
@@ -97,7 +92,7 @@ on property:sys.usb.config=cdrom
 
 on property:sys.usb.config=cdrom,adb
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 5d24
     write /sys/class/android_usb/android0/f_gser/port_count ${sys.usb.gser.count}
     write /sys/class/android_usb/android0/functions mass_storage,adb${persist.sys.modem.diag}
@@ -111,7 +106,7 @@ on property:sys.usb.config=cdrom,adb
 
 on property:sys.usb.config=mass_storage
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 5d03
     write /sys/class/android_usb/android0/f_mass_storage/lun/file '\0'
     write /sys/class/android_usb/android0/f_mass_storage/lun/cdrom 0
@@ -122,7 +117,7 @@ on property:sys.usb.config=mass_storage
 
 on property:sys.usb.config=mass_storage,adb
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 5d24
     write /sys/class/android_usb/android0/f_gser/port_count ${sys.usb.gser.count}
     write /sys/class/android_usb/android0/f_mass_storage/lun/file '\0'
@@ -135,7 +130,7 @@ on property:sys.usb.config=mass_storage,adb
 
 on property:sys.usb.config=midi
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 4021
     write /sys/class/android_usb/android0/functions $sys.usb.config
     write /sys/class/android_usb/android0/enable 1
@@ -143,7 +138,7 @@ on property:sys.usb.config=midi
 
 on property:sys.usb.config=midi,adb
     write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor ${ro.display.usb.vid}
+    write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 4022
     write /sys/class/android_usb/android0/f_gser/port_count ${sys.usb.gser.count}
     write /sys/class/android_usb/android0/functions ${sys.usb.config}${persist.sys.modem.diag}
@@ -157,7 +152,7 @@ on property:sys.usb.config=vser
     write /sys/class/android_usb/android0/idVendor 1782
     write /sys/class/android_usb/android0/idProduct 4d00
     write /sys/class/android_usb/android0/functions vser
-    write /sys/class/android_usb/android0/iManufacturer ${ro.display.product.manufacturer}
+    write /sys/class/android_usb/android0/iManufacturer Spreadtrum
     write /sys/class/android_usb/android0/iProduct "Gadget Serial"
     write /sys/class/android_usb/android0/iSerial 19761202
     write /sys/class/android_usb/android0/enable 1

@@ -52,13 +52,12 @@ PRODUCT_COPY_FILES += \
 # Rootdir
 TARGET_PROVIDES_INIT_RC := true
 ROOTFILES := \
-	fstab.sc8830 \
 	fstab.sp7731c_1h10 \
-	init.board.rc \
 	init.rc \
+	init.recovery.sp7731c_1h10.rc \
 	init.sc8830.rc \
 	init.sc8830.usb.rc \
-	ueventd.sc8830.rc \
+	init.sp7731c_1h10.rc \
 	ueventd.sp7731c_1h10.rc
 PRODUCT_PACKAGES += \
 	autotst.ko \
