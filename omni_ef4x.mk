@@ -1,0 +1,7 @@
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
+PRODUCT_RELEASE_NAME := ef4x
+PRODUCT_DEVICE := ef4x
+PRODUCT_NAME := omni_ef4x
+PRODUCT_BRAND := WALTON
+PRODUCT_MODEL := Primo EF4+
+PRODUCT_MANUFACTURER := WALTON
